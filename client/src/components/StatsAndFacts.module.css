@@ -40,12 +40,22 @@
 .intro {
   margin: 0;
   max-width: 760px;
-  color: #202020;
+  color: rgba(32, 32, 32, 0.42);
   font-family: "Sora", sans-serif;
   font-size: clamp(1.55rem, 2.9vw, 2.35rem);
   font-weight: 400;
   line-height: 1.16;
   letter-spacing: -0.05em;
+  white-space: pre-wrap;
+}
+
+.introChar {
+  color: rgba(32, 32, 32, 0.42);
+  transition: color 0.2s ease;
+}
+
+.introCharVisible {
+  color: #202020;
 }
 
 .grid {

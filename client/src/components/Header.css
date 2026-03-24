@@ -124,7 +124,7 @@ body {
   background: #00ef02;
   color: #0b0b0b;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;
   line-height: 30px;
   letter-spacing: 1px;
@@ -191,7 +191,7 @@ body {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 30px;
   align-items: flex-start;
 }
 
@@ -199,13 +199,26 @@ body {
   display: inline-flex;
   color: #ffffff;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 26px;
   line-height: 30px;
-  letter-spacing: 1px;
-  font-family: "Avenir Next", sans-serif;
+  letter-spacing: 0.1px;
+  font-family: "Sora", sans-serif;
   text-decoration: none;
   text-align: left;
+  text-transform: uppercase;
+}
+
+.sideMenuList .hover-text {
+  gap: 0;
+}
+
+.sideMenuList .hover-char {
+  min-width: auto;
+}
+
+.sideMenuList .hover-char.is-space {
+  min-width: 0.45ch;
 }
 
 @media (max-width: 900px) {
