@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&family=Vesper+Libre:wght@400;500;700;900&display=swap");
+
+:root {
+  --text: #0f172a;
+  --text-h: #020617;
+  --bg: #f8fafc;
+  --border: #dbe1ea;
+  --sans: "Outfit", sans-serif;
+
+  font: 18px/1.45 var(--sans);
+  letter-spacing: 0.02em;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at top, rgba(37, 99, 235, 0.12), transparent 32%),
+    #f8fafc;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+h1,
+h2 {
+  font-family: var(--sans);
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  letter-spacing: -0.05em;
+  margin: 0 0 16px;
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+.vesper-libre-regular {
+  font-family: "Vesper Libre", serif;
+  font-weight: 400;
+  font-style: normal;
+}

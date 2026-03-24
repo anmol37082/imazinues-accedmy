@@ -1,0 +1,23 @@
+.bannerSection {
+  --header-offset: 96px;
+  width: 100vw;
+  min-height: calc(100svh + var(--header-offset));
+  margin: 0;
+  padding: 0;
+  background: #000000;
+  overflow: hidden;
+}
+
+.bannerImage {
+  display: block;
+  width: 100vw;
+  min-height: calc(100svh + var(--header-offset));
+  object-fit: cover;
+  object-position: center top;
+}
+
+@media (max-width: 540px) {
+  .bannerSection {
+    --header-offset: 88px;
+  }
+}

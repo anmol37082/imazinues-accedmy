@@ -1,0 +1,13 @@
+.bannerSection {
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  background: #000000;
+  overflow: hidden;
+}
+
+.bannerImage {
+  display: block;
+  width: 100vw;
+  height: auto;
+}
