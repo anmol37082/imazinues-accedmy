@@ -91,7 +91,36 @@ function StatsAndFacts() {
 
   useEffect(() => {
     if (isMobile) {
-      setRevealedCount(introChars.length);
+      if (!statsActive) {
+        setRevealedCount(0);
+        return;
+      }
+
+      let frameId = 0;
+      const duration = 650;
+      const startTime = performance.now();
+
+      const animateMobileReveal = (time) => {
+        const progress = Math.min((time - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const nextCount = Math.round(introChars.length * eased);
+
+        setRevealedCount((currentCount) =>
+          currentCount === nextCount ? currentCount : nextCount
+        );
+
+        if (progress < 1) {
+          frameId = window.requestAnimationFrame(animateMobileReveal);
+        }
+      };
+
+      frameId = window.requestAnimationFrame(animateMobileReveal);
+
+      return () => window.cancelAnimationFrame(frameId);
+    }
+
+    if (!statsActive) {
+      setRevealedCount(0);
       return;
     }
 
@@ -138,7 +167,7 @@ function StatsAndFacts() {
       window.removeEventListener("scroll", requestRevealUpdate);
       window.removeEventListener("resize", requestRevealUpdate);
     };
-  }, [isMobile]);
+  }, [isMobile, statsActive]);
 
   useEffect(() => {
     if (!sectionRef.current) {
