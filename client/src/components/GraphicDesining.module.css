@@ -404,6 +404,15 @@
     padding: 44px 0 44px 18px;
   }
 
+  .title {
+    line-height: 1.08;
+  }
+
+  .titlePrimary {
+    display: inline-block;
+    line-height: 0.96;
+  }
+
   .track {
     grid-auto-columns: minmax(294px, 90vw);
     gap: 18px;
