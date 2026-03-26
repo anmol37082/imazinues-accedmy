@@ -92,7 +92,7 @@ function Header() {
 
         <div className="right">
           <button className="btn headerButton">
-            <HoverText label="BOOK A CALL" />
+            <span className="btnLabel">BOOK A CALL</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -137,7 +137,7 @@ function Header() {
         </ul>
 
         <button className="btn mobileDrawerButton">
-          <HoverText label="BOOK A CALL" />
+          <span className="btnLabel">BOOK A CALL</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

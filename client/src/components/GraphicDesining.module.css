@@ -1,0 +1,465 @@
+.section {
+  width: 100%;
+  padding: 72px 0 72px 32px;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.eyebrowWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 14px;
+  padding-right: 32px;
+  order: 2;
+  flex-shrink: 0;
+}
+
+.eyebrowDot {
+  width: 9px;
+  height: 9px;
+  background: #00ef02;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.eyebrow {
+  color: #2b2b2b;
+  font-family: "Sora", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.title {
+  max-width: 760px;
+  margin: 0;
+  color: #111111;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(1.8rem, 3.8vw, 3rem);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -0.06em;
+}
+
+.titlePrimary {
+  font-size: clamp(2.3rem, 4.8vw, 3.8rem);
+  text-transform: uppercase;
+}
+
+.titleSecondary {
+  color: rgba(17, 17, 17, 0.78);
+  font-weight: 400;
+  font-size: clamp(1.1rem, 2.2vw, 1.85rem);
+  margin-left: 6px;
+  letter-spacing: 0.03em;
+}
+
+.infoRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 18px 6px;
+}
+
+.infoBox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1.5px solid rgba(17, 17, 17, 0.26);
+  border-radius: 24px;
+  background: #ffffff;
+  color: rgba(17, 17, 17, 0.72);
+  font-family: "Sora", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 400;
+  overflow: hidden;
+}
+
+.infoBox::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -36%;
+  width: 38%;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.85),
+    rgba(255, 255, 255, 0)
+  );
+  filter: blur(3px);
+  opacity: 0.85;
+  transform: translateY(-50%);
+  pointer-events: none;
+  animation: infoBoxGlowSweep 4.8s linear infinite;
+}
+
+@keyframes infoBoxGlowSweep {
+  from {
+    left: -36%;
+  }
+
+  to {
+    left: 100%;
+  }
+}
+
+.controlsRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 18px;
+  padding-right: 32px;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+.control {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 999px;
+  background: #111111;
+  color: #ffffff;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(300px, 346px);
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  position: relative;
+  padding: 16px 16px 0;
+  border-radius: 28px;
+  background: #fff6e9;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  transition: background-color 220ms ease;
+}
+
+.card:hover {
+  background: #00ef02;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 190px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.content::after {
+  content: "";
+  position: absolute;
+  top: -118%;
+  left: -12%;
+  right: auto;
+  width: 7%;
+  height: 260%;
+  transform-origin: top center;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.28) 16%,
+    rgba(255, 255, 255, 1) 36%,
+    rgba(255, 255, 255, 1) 64%,
+    rgba(255, 255, 255, 0.28) 84%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  filter: blur(5px);
+  opacity: 0;
+  transform: rotate(44deg);
+  pointer-events: none;
+}
+
+.card:hover .content::after {
+  animation: cardDiagonalSweep 0.9s ease-out 1;
+}
+
+.topMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.pill {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111111;
+  font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+  font-size: 0.58rem;
+  font-weight: 500;
+}
+
+.cardTitle {
+  margin: 0 0 10px;
+  min-height: 3rem;
+  width: 92%;
+  max-width: 92%;
+  color: #050505;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(0.92rem, 1.8vw, 1.22rem);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+}
+
+.cardDescription {
+  margin: 0;
+  min-height: 2.8rem;
+  width: 88%;
+  max-width: 88%;
+  color: rgba(17, 17, 17, 0.56);
+  font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+  font-size: 0.7rem;
+  line-height: 1.32;
+}
+
+.art {
+  position: relative;
+  flex: 0 0 290px;
+  min-height: 290px;
+  margin: auto -16px 0;
+  border-radius: 26px 26px 0 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 22% 20%, rgba(255, 255, 255, 0.42), transparent 20%),
+    radial-gradient(circle at 78% 68%, rgba(255, 255, 255, 0.22), transparent 24%),
+    var(--art-bg);
+}
+
+.artImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.art::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 42%;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.22));
+}
+
+.readMore {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  min-height: 34px;
+  padding: 0 4px 0 10px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.38);
+  color: #ffffff;
+  font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-left: 8px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111111;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.arrow svg {
+  width: 13px;
+  height: 13px;
+}
+
+@keyframes cardDiagonalSweep {
+  from {
+    top: -118%;
+    left: -12%;
+    right: auto;
+    opacity: 0;
+    transform: rotate(44deg);
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  45% {
+    opacity: 1;
+    transform: rotate(44deg);
+  }
+
+  72% {
+    opacity: 1;
+    transform: rotate(44deg);
+  }
+
+  88% {
+    opacity: 1;
+    transform: rotate(44deg);
+  }
+
+  96% {
+    opacity: 0.92;
+    transform: rotate(44deg);
+  }
+
+  to {
+    top: -14%;
+    left: 164%;
+    right: auto;
+    opacity: 0;
+    transform: rotate(44deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding: 56px 0 56px 24px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 22px;
+  }
+
+  .eyebrowWrap {
+    order: 0;
+    padding-top: 0;
+    padding-right: 24px;
+  }
+
+  .controlsRow {
+    margin-bottom: 16px;
+    padding-right: 24px;
+  }
+
+  .controls {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 540px) {
+  .section {
+    padding: 44px 0 44px 18px;
+  }
+
+  .track {
+    grid-auto-columns: minmax(270px, 86vw);
+    gap: 18px;
+  }
+
+  .controlsRow {
+    padding-right: 18px;
+  }
+
+  .infoRow {
+    gap: 10px;
+    margin-left: 0;
+  }
+
+  .infoBox {
+    min-height: 36px;
+    padding: 0 14px;
+    font-size: 0.84rem;
+  }
+
+  .eyebrowWrap {
+    padding-right: 18px;
+  }
+
+  .pill {
+    padding: 5px 10px;
+    font-size: 0.64rem;
+    font-weight: 700;
+    color: #111111;
+  }
+
+  .pill:first-child {
+    background: linear-gradient(135deg, #58ef3a, #19c70d);
+  }
+
+  .pill:last-child {
+    background: linear-gradient(135deg, #42c6ff, #1299f3);
+  }
+
+  .art {
+    flex-basis: 250px;
+    min-height: 250px;
+  }
+
+  .content {
+    min-height: 180px;
+  }
+
+  .cardTitle {
+    min-height: 2.9rem;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .cardDescription {
+    min-height: 2.8rem;
+    width: 100%;
+    max-width: 100%;
+  }
+}

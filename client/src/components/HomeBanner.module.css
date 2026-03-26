@@ -1,23 +1,34 @@
 .bannerSection {
   --header-offset: 96px;
-  width: 100vw;
-  min-height: calc(100svh + var(--header-offset));
+  width: 100%;
   margin: 0;
   padding: 0;
   background: #000000;
   overflow: hidden;
 }
 
+.bannerSection picture {
+  display: block;
+  width: 100%;
+}
+
 .bannerImage {
   display: block;
-  width: 100vw;
-  min-height: calc(100svh + var(--header-offset));
-  object-fit: cover;
+  width: 100%;
+  height: auto;
   object-position: center top;
 }
 
 @media (max-width: 540px) {
   .bannerSection {
     --header-offset: 88px;
+    padding-bottom: 44px;
+  }
+
+  .bannerImage {
+    margin-top: 0;
+    width: 100%;
+    height: auto;
+    object-position: center top;
   }
 }
