@@ -30,6 +30,7 @@ const stats = [
 
 const introText =
   "Hey, I'm Vishant Kumar, the mind behind Imazine Us - A creative agency focused on transforming simple concepts into creative solutions that truly stand out.";
+const introChars = introText.split("");
 
 function CountUpValue({ value, suffix = "", start = 1, active }) {
   const [displayValue, setDisplayValue] = useState(start);
@@ -66,10 +67,37 @@ function CountUpValue({ value, suffix = "", start = 1, active }) {
 function StatsAndFacts() {
   const introRef = useRef(null);
   const sectionRef = useRef(null);
-  const [revealProgress, setRevealProgress] = useState(0);
+  const [revealedCount, setRevealedCount] = useState(0);
   const [statsActive, setStatsActive] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    return window.matchMedia("(max-width: 540px)").matches;
+  });
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 540px)");
+    const updateIsMobile = (event) => {
+      setIsMobile(event.matches);
+    };
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", updateIsMobile);
+
+    return () => mediaQuery.removeEventListener("change", updateIsMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) {
+      setRevealedCount(introChars.length);
+      return;
+    }
+
+    let frameId = 0;
+    let ticking = false;
+
     const updateReveal = () => {
       if (!introRef.current) {
         return;
@@ -80,42 +108,57 @@ function StatsAndFacts() {
       const start = viewportHeight * 0.92;
       const end = viewportHeight * 0.2;
       const progress = ((start - rect.top) / (start - end)) * 100;
+      const nextCount = Math.round(
+        (Math.max(0, Math.min(100, progress)) / 100) * introChars.length
+      );
 
-      setRevealProgress(Math.max(0, Math.min(100, progress)));
+      setRevealedCount((currentCount) =>
+        currentCount === nextCount ? currentCount : nextCount
+      );
     };
 
-    updateReveal();
-    window.addEventListener("scroll", updateReveal, { passive: true });
-    window.addEventListener("resize", updateReveal);
-
-    return () => {
-      window.removeEventListener("scroll", updateReveal);
-      window.removeEventListener("resize", updateReveal);
-    };
-  }, []);
-
-  useEffect(() => {
-    const updateStatsState = () => {
-      if (!sectionRef.current) {
+    const requestRevealUpdate = () => {
+      if (ticking) {
         return;
       }
 
-      const rect = sectionRef.current.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      setStatsActive(rect.top < viewportHeight * 0.8 && rect.bottom > 0);
+      ticking = true;
+      frameId = window.requestAnimationFrame(() => {
+        ticking = false;
+        updateReveal();
+      });
     };
 
-    updateStatsState();
-    window.addEventListener("scroll", updateStatsState, { passive: true });
-    window.addEventListener("resize", updateStatsState);
+    updateReveal();
+    window.addEventListener("scroll", requestRevealUpdate, { passive: true });
+    window.addEventListener("resize", requestRevealUpdate);
 
     return () => {
-      window.removeEventListener("scroll", updateStatsState);
-      window.removeEventListener("resize", updateStatsState);
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", requestRevealUpdate);
+      window.removeEventListener("resize", requestRevealUpdate);
     };
-  }, []);
+  }, [isMobile]);
 
-  const revealedCount = Math.round((revealProgress / 100) * introText.length);
+  useEffect(() => {
+    if (!sectionRef.current) {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setStatsActive(entry.isIntersecting);
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -10% 0px",
+      }
+    );
+
+    observer.observe(sectionRef.current);
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section ref={sectionRef} className={styles.section}>
@@ -129,7 +172,7 @@ function StatsAndFacts() {
           ref={introRef}
           className={styles.intro}
         >
-          {introText.split("").map((char, index) => (
+          {introChars.map((char, index) => (
             <span
               key={`${char}-${index}`}
               className={
