@@ -411,6 +411,7 @@
   .titlePrimary {
     display: inline-block;
     line-height: 0.96;
+    margin-bottom: 12px;
   }
 
   .track {
@@ -461,6 +462,7 @@
   }
 
   .cardTitle {
+    margin-bottom: 14px;
     min-height: 2.9rem;
     width: 100%;
     max-width: 100%;
