@@ -405,7 +405,7 @@
   }
 
   .track {
-    grid-auto-columns: minmax(270px, 86vw);
+    grid-auto-columns: minmax(294px, 90vw);
     gap: 18px;
   }
 
@@ -432,19 +432,14 @@
     padding: 5px 10px;
     font-size: 0.64rem;
     font-weight: 700;
+    background: #ffffff;
     color: #111111;
   }
 
-  .pill:first-child {
-    background: linear-gradient(135deg, #58ef3a, #19c70d);
-  }
-
-  .pill:last-child {
-    background: linear-gradient(135deg, #42c6ff, #1299f3);
-  }
-
   .titleSecondary {
+    white-space: nowrap;
     padding-right: 12px;
+    font-size: clamp(0.98rem, 4.2vw, 1.22rem);
   }
 
   .art {
@@ -460,11 +455,22 @@
     min-height: 2.9rem;
     width: 100%;
     max-width: 100%;
+    font-size: clamp(1.18rem, 5vw, 1.42rem);
+    line-height: 1.26;
   }
 
   .cardDescription {
     min-height: 2.8rem;
     width: 100%;
     max-width: 100%;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 415px) {
+  .titleSecondary {
+    max-width: 14ch;
+    white-space: normal;
   }
 }
