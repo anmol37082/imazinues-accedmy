@@ -424,14 +424,21 @@
   }
 
   .infoRow {
-    gap: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
     margin-left: 0;
   }
 
   .infoBox {
-    min-height: 36px;
-    padding: 0 14px;
-    font-size: 0.84rem;
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 18px;
+    font-size: 0.76rem;
+  }
+
+  .infoBox:last-child {
+    margin-right: 18px;
   }
 
   .eyebrowWrap {
