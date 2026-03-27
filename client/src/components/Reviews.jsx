@@ -61,10 +61,17 @@ function Reviews() {
       <div className={styles.header}>
         <h2 className={styles.title}>What People Say</h2>
 
-        <p className={styles.summary}>
-          Real stories from real people. See how my designs have transformed
-          and elevated businesses, and created lasting impressions.
-        </p>
+        <div className={styles.summary}>
+          <span className={styles.summaryLineMedium}>
+            Real stories from real people. See how
+          </span>
+          <span className={styles.summaryLineLarge}>
+            my designs have transformed and elevated businesses, and
+          </span>
+          <span className={styles.summaryLineSmall}>
+            created lasting impressions.
+          </span>
+        </div>
       </div>
 
       <div className={styles.grid}>

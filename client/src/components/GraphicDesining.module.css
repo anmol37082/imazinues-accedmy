@@ -13,13 +13,21 @@
   margin-bottom: 18px;
 }
 
+.cornerMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 18px;
+  order: 2;
+  flex-shrink: 0;
+}
+
 .eyebrowWrap {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   padding-top: 14px;
   padding-right: 32px;
-  order: 2;
   flex-shrink: 0;
 }
 
@@ -37,6 +45,111 @@
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: -0.03em;
+}
+
+.softwareWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  padding-right: 32px;
+}
+
+.softwareIcons {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.softwareIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: 32px;
+  padding: 0;
+  border-radius: 0;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  box-shadow: 0 12px 24px rgba(17, 17, 17, 0.08);
+  font-family: "Sora", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  overflow: visible;
+}
+
+.softwareIcon + .softwareIcon {
+  margin-left: 5px;
+}
+
+.softwareSvg {
+  display: block;
+  width: 46px;
+  height: 46px;
+}
+
+.softwareSvg rect {
+  fill: #001e36;
+}
+
+.softwareSvg path {
+  fill: #31a8ff;
+}
+
+.photoshopIcon {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.photoshopIcon .softwareSvg {
+  width: 44px;
+}
+
+.illustratorIcon {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.illustratorIcon .softwareSvg {
+  width: 46px;
+}
+
+.illustratorIcon rect {
+  fill: #330000;
+}
+
+.illustratorIcon path {
+  fill: #ff9a00;
+}
+
+.indesignIcon {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.indesignIcon .softwareSvg {
+  width: 48px;
+}
+
+.indesignIcon path:first-child {
+  fill: #49021f;
+}
+
+.indesignIcon path:last-child {
+  fill: #ff3366;
+}
+
+.softwareLabel {
+  color: rgba(17, 17, 17, 0.65);
+  font-family: "Sora", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: right;
 }
 
 .title {
@@ -383,10 +496,20 @@
     margin-bottom: 22px;
   }
 
-  .eyebrowWrap {
+  .cornerMeta {
     order: 0;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .eyebrowWrap {
     padding-top: 0;
-    padding-right: 24px;
+    padding-right: 0;
+  }
+
+  .softwareWrap {
+    align-items: flex-start;
+    padding-right: 0;
   }
 
   .controlsRow {
@@ -442,7 +565,25 @@
   }
 
   .eyebrowWrap {
-    padding-right: 18px;
+    padding-right: 0;
+  }
+
+  .softwareWrap {
+    gap: 7px;
+  }
+
+  .softwareIcons {
+    gap: 0;
+  }
+
+  .softwareIcon {
+    width: auto;
+    height: 30px;
+    font-size: 0.96rem;
+  }
+
+  .softwareIcon + .softwareIcon {
+    margin-left: 4px;
   }
 
   .pill {
