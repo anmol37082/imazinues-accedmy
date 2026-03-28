@@ -116,13 +116,19 @@ function Reviews() {
 
         <div className={styles.summary}>
           <span className={styles.summaryLineMedium}>
-            Real stories from our students and interns.
+            Real stories from our
           </span>
           <span className={styles.summaryLineLarge}>
-            Their growth came from practical projects, mentor support,
+            students and interns. Their growth came
           </span>
           <span className={styles.summaryLineSmall}>
-            and real-world learning.
+            from practical projects, mentor
+          </span>
+          <span className={styles.summaryLineFourth}>
+            support and real world
+          </span>
+          <span className={styles.summaryLineFifth}>
+            learning.
           </span>
         </div>
       </div>

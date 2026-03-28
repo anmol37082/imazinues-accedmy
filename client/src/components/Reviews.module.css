@@ -72,6 +72,24 @@
   white-space: nowrap;
 }
 
+.summaryLineFourth {
+  display: block;
+  color: rgba(35, 35, 35, 0.72);
+  width: fit-content;
+  font-size: 1.02rem;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.summaryLineFifth {
+  display: block;
+  color: rgba(35, 35, 35, 0.72);
+  width: fit-content;
+  font-size: 1.02rem;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
 .section::before,
 .section::after {
   content: "";
@@ -248,7 +266,9 @@
 
   .summaryLineMedium,
   .summaryLineLarge,
-  .summaryLineSmall {
+  .summaryLineSmall,
+  .summaryLineFourth,
+  .summaryLineFifth {
     display: block;
     font-size: 0.92rem;
     line-height: 1.45;
@@ -258,15 +278,23 @@
   }
 
   .summaryLineMedium {
-    max-width: 16ch;
+    max-width: 18ch;
   }
 
   .summaryLineLarge {
-    max-width: 22ch;
+    max-width: 24ch;
   }
 
   .summaryLineSmall {
+    max-width: 21ch;
+  }
+
+  .summaryLineFourth {
     max-width: 18ch;
+  }
+
+  .summaryLineFifth {
+    max-width: 11ch;
   }
 
   .grid {
