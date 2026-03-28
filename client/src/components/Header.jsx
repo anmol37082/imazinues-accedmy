@@ -87,7 +87,7 @@ function Header() {
     <>
       <nav className="navbar">
         <div className="logo">
-          <img src="/Imazine%20Us%20Academy%20%20Logo.png" alt="Imazine Us" />
+          <img src="/ImazineUsAcademyLogo.png" alt="Imazine Us" />
         </div>
 
         <div className="right">

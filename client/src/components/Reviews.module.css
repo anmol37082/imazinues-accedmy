@@ -142,6 +142,21 @@
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
+.avatarFallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: linear-gradient(135deg, #0d7c2f, #49c45e);
+  color: #ffffff;
+  font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
 .badge {
   display: inline-flex;
   align-items: center;
