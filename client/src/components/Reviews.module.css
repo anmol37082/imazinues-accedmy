@@ -240,13 +240,33 @@
   }
 
   .summary {
-    max-width: 100%;
+    max-width: 320px;
+    gap: 4px;
+    padding: 0 6px;
+    align-items: center;
   }
 
   .summaryLineMedium,
   .summaryLineLarge,
   .summaryLineSmall {
-    width: auto;
+    display: block;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    white-space: normal;
+    text-wrap: balance;
+    text-align: center;
+  }
+
+  .summaryLineMedium {
+    max-width: 16ch;
+  }
+
+  .summaryLineLarge {
+    max-width: 22ch;
+  }
+
+  .summaryLineSmall {
+    max-width: 18ch;
   }
 
   .grid {
