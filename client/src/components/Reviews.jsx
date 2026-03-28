@@ -114,7 +114,19 @@ function Reviews() {
       <div className={styles.header}>
         <h2 className={styles.title}>What People Say</h2>
 
-        <div className={styles.summary}>
+        <div className={`${styles.summary} ${styles.summaryDesktop}`}>
+          <span className={styles.summaryLineMedium}>
+            Real stories from our students and interns.
+          </span>
+          <span className={styles.summaryLineLarge}>
+            Their growth came from practical projects, mentor support,
+          </span>
+          <span className={styles.summaryLineSmall}>
+            and real-world learning.
+          </span>
+        </div>
+
+        <div className={`${styles.summary} ${styles.summaryMobile}`}>
           <span className={styles.summaryLineMedium}>
             Real stories from our
           </span>

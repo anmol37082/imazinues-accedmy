@@ -44,6 +44,10 @@
   line-height: 1.5;
 }
 
+.summaryMobile {
+  display: none;
+}
+
 .summaryLineMedium {
   display: block;
   color: rgba(35, 35, 35, 0.72);
@@ -262,6 +266,14 @@
     gap: 4px;
     padding: 0 6px;
     align-items: center;
+  }
+
+  .summaryDesktop {
+    display: none;
+  }
+
+  .summaryMobile {
+    display: flex;
   }
 
   .summaryLineMedium,

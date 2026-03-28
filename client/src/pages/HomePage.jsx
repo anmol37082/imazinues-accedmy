@@ -5,6 +5,7 @@ import HomeBanner2 from "../components/HomeBanner2";
 import Header from "../components/Header";
 import Reviews from "../components/Reviews";
 import StatsAndFacts from "../components/StatsAndFacts";
+import Webvideobnnaer from "../components/Webvideobnnaer";
 
 function HomePage() {
   const siteUrl = "https://imazineus.com";
@@ -103,6 +104,7 @@ function HomePage() {
       <StatsAndFacts />
       <HomeBanner2 />
       <GraphicDesining />
+      <Webvideobnnaer />
       <Reviews />
     </>
   );
