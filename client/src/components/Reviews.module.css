@@ -262,9 +262,9 @@
   }
 
   .summary {
-    max-width: 320px;
+    max-width: 380px;
     gap: 4px;
-    padding: 0 6px;
+    padding: 0;
     align-items: center;
   }
 
@@ -290,23 +290,23 @@
   }
 
   .summaryLineMedium {
-    max-width: 18ch;
+    max-width: 20ch;
   }
 
   .summaryLineLarge {
-    max-width: 24ch;
+    max-width: 30ch;
   }
 
   .summaryLineSmall {
-    max-width: 21ch;
+    max-width: 25ch;
   }
 
   .summaryLineFourth {
-    max-width: 18ch;
+    max-width: 20ch;
   }
 
   .summaryLineFifth {
-    max-width: 11ch;
+    max-width: 13ch;
   }
 
   .grid {
