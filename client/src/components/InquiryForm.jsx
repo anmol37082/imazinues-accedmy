@@ -1,113 +1,144 @@
+import { useEffect, useState } from "react";
 import styles from "./InquiryForm.module.css";
 
-const highlights = [
-  "Offline practical classes with mentor support",
-  "Courses for graphic design, video editing and more",
-  "Quick callback for course details and timings",
+const courseOptions = [
+  "Graphic Designing",
+  "Video Editing",
+  "Digital Marketing",
+  "Web Development",
+];
+
+const slides = [
+  {
+    image: encodeURI(
+      "/inquryform/28480869_Tiny graphic designer drawing with big pen on computer screen.svg"
+    ),
+    alt: "Graphic design inquiry visual",
+    lines: ["Master Video", "Editing Skills with", "Real Practice."],
+  },
+  {
+    image: "/inquryform/4137653_2168227.svg",
+    alt: "Creative course inquiry visual",
+    lines: ["Learn Reels and", "Cinematic Editing in", "Offline Classes."],
+  },
 ];
 
 function InquiryForm() {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    let fadeTimer;
+
+    const intervalId = window.setInterval(() => {
+      setIsVisible(false);
+      fadeTimer = window.setTimeout(() => {
+        setActiveSlide((current) => (current + 1) % slides.length);
+        setIsVisible(true);
+      }, 350);
+    }, 3500);
+
+    return () => {
+      window.clearInterval(intervalId);
+      if (fadeTimer) {
+        window.clearTimeout(fadeTimer);
+      }
+    };
+  }, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
+  const currentSlide = slides[activeSlide];
+
   return (
     <section className={styles.section} id="inquiry">
-      <div className={styles.content}>
-        <div className={styles.copy}>
-          <p className={styles.eyebrow}>Enquiry Form</p>
-          <h2 className={styles.title}>Talk to our team about the right course.</h2>
-          <p className={styles.description}>
-            Share your details and course interest. We will connect with you to
-            explain batches, fees and learning path.
-          </p>
-
-          <div className={styles.meta}>
-            <div className={styles.metaCard}>
-              <span className={styles.metaLabel}>Call Us</span>
-              <a className={styles.metaValue} href="tel:+919056767672">
-                +91 90567 67672
-              </a>
-            </div>
-
-            <div className={styles.metaCard}>
-              <span className={styles.metaLabel}>Location</span>
-              <p className={styles.metaText}>Zirakpur, Chandigarh Tricity</p>
-            </div>
+      <div className={styles.shell}>
+        <div className={styles.visualPanel}>
+          <div
+            className={`${styles.imageFrame} ${
+              isVisible ? styles.contentVisible : styles.contentHidden
+            }`}
+          >
+            <img
+              className={styles.slideImage}
+              src={currentSlide.image}
+              alt={currentSlide.alt}
+            />
           </div>
 
-          <ul className={styles.highlights}>
-            {highlights.map((item) => (
-              <li key={item} className={styles.highlightItem}>
-                {item}
-              </li>
-            ))}
-          </ul>
+          <div
+            className={`${styles.visualCopy} ${
+              isVisible ? styles.contentVisible : styles.contentHidden
+            }`}
+          >
+            <p className={styles.visualBrand}>Imazinus Academy</p>
+            <p className={styles.visualLines}>
+              {currentSlide.lines[0]}
+              <br />
+              {currentSlide.lines[1]}
+              <br />
+              {currentSlide.lines[2]}
+            </p>
+          </div>
         </div>
 
-        <form className={styles.formCard} onSubmit={handleSubmit}>
-          <div className={styles.fieldGrid}>
+        <div className={styles.formPanel}>
+          <div className={styles.formIntro}>
+            <h3 className={styles.formTitle}>Are you ready for offline classes?</h3>
+            <p className={styles.formSubtitle}>Fill the form, book your Slot</p>
+          </div>
+
+          <form className={styles.form} onSubmit={handleSubmit}>
             <label className={styles.field}>
-              <span className={styles.label}>Full Name</span>
               <input
                 className={styles.input}
                 type="text"
                 name="name"
-                placeholder="Enter your name"
+                placeholder="Full Name"
                 autoComplete="name"
               />
             </label>
 
             <label className={styles.field}>
-              <span className={styles.label}>Phone Number</span>
               <input
                 className={styles.input}
                 type="tel"
                 name="phone"
-                placeholder="Enter your phone number"
+                placeholder="Phone Number"
                 autoComplete="tel"
               />
             </label>
 
             <label className={styles.field}>
-              <span className={styles.label}>Email Address</span>
               <input
                 className={styles.input}
                 type="email"
                 name="email"
-                placeholder="Enter your email"
+                placeholder="Email Address"
                 autoComplete="email"
               />
             </label>
 
             <label className={styles.field}>
-              <span className={styles.label}>Course Interest</span>
-              <select className={styles.input} name="course" defaultValue="">
+              <select className={styles.select} name="course" defaultValue="">
                 <option value="" disabled>
-                  Select a course
+                  Select Course
                 </option>
-                <option value="graphic-design">Graphic Design</option>
-                <option value="video-editing">Video Editing</option>
-                <option value="digital-marketing">Digital Marketing</option>
-                <option value="web-development">Web Development</option>
-                <option value="content-writing">Content Writing</option>
+                {courseOptions.map((course) => (
+                  <option key={course} value={course}>
+                    {course}
+                  </option>
+                ))}
               </select>
             </label>
-          </div>
 
-          <label className={styles.field}>
-            <span className={styles.label}>Message</span>
-            <textarea
-              className={`${styles.input} ${styles.textarea}`}
-              name="message"
-              placeholder="Tell us what you want to learn"
-            />
-          </label>
-
-          <button className={styles.button} type="submit">
-            Submit Enquiry
-          </button>
-        </form>
+            <button className={styles.submitButton} type="submit">
+              Start Learning
+            </button>
+          </form>
+        </div>
       </div>
     </section>
   );
