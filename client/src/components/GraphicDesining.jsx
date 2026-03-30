@@ -278,7 +278,7 @@ function GraphicDesining() {
 
       <div className={styles.infoRow}>
         <div className={styles.infoBox}>Classes: Mon - Fri</div>
-        <div className={styles.infoBox}>Location: - Zirakpur</div>
+        <div className={styles.infoBox}>Location: Zirakpur</div>
       </div>
 
       <div className={styles.controlsRow}>
