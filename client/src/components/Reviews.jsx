@@ -112,7 +112,7 @@ function Reviews() {
   return (
     <section className={styles.section}>
       <div className={styles.header}>
-        <h2 className={styles.title}>What Students Says</h2>
+        <h2 className={styles.title}>What Students Say</h2>
 
         <div className={`${styles.summary} ${styles.summaryDesktop}`}>
           <span className={styles.summaryLineMedium}>
