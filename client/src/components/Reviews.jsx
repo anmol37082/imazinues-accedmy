@@ -82,7 +82,7 @@ const reviews = [
     avatar: "/reviews/aryansingh.jpeg",
   },
   {
-    name: "Mushkaan",
+    name: "Muskaan",
     role: "Digital Marketer",
     title: "Discover my true interests and learning path.",
     quote:
