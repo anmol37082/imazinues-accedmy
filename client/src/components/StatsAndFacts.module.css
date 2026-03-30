@@ -2,7 +2,7 @@
   width: 100%;
   margin: 0;
   padding: 52px 32px 58px;
-  background: #ffffff;
+  background: #000000;
   box-sizing: border-box;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .eyebrow {
-  color: #2b2b2b;
+  color: #ffffff;
   font-family: "Sora", sans-serif;
   font-size: 1rem;
   font-weight: 600;
@@ -42,7 +42,7 @@
   width: 100%;
   max-width: 100%;
   padding-right: 68px;
-  color: rgba(32, 32, 32, 0.42);
+  color: rgba(255, 255, 255, 0.34);
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
   font-size: clamp(2rem, 3.55vw, 3.05rem);
   font-weight: 450;
@@ -52,12 +52,12 @@
 }
 
 .introChar {
-  color: rgba(32, 32, 32, 0.42);
+  color: rgba(255, 255, 255, 0.34);
   transition: color 0.2s ease;
 }
 
 .introCharVisible {
-  color: #202020;
+  color: #ffffff;
 }
 
 .grid {
@@ -68,13 +68,13 @@
 
 .card {
   padding: 14px 20px 24px;
-  background: #ffffff;
+  background: #000000;
   text-align: center;
 }
 
 .value {
   margin: 0 0 20px;
-  color: #111111;
+  color: #ffffff;
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
   font-size: clamp(3.4rem, 6.8vw, 5rem);
   font-weight: 700;
@@ -85,8 +85,8 @@
 .label {
   margin: 0;
   padding-top: 18px;
-  border-top: 1px solid #ececec;
-  color: #222222;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.86);
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
   font-size: 1.10rem;
   font-weight: 400;

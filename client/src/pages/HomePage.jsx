@@ -3,6 +3,7 @@ import GraphicDesining from "../components/GraphicDesining";
 import HomeBanner from "../components/HomeBanner";
 import HomeBanner2 from "../components/HomeBanner2";
 import Header from "../components/Header";
+import InquiryForm from "../components/InquiryForm";
 import Reviews from "../components/Reviews";
 import StatsAndFacts from "../components/StatsAndFacts";
 import Webvideobnnaer from "../components/Webvideobnnaer";
@@ -105,6 +106,7 @@ function HomePage() {
       <HomeBanner2 />
       <GraphicDesining />
       <Webvideobnnaer />
+      <InquiryForm />
       <Reviews />
     </>
   );
