@@ -15,7 +15,7 @@ function InquiryForm() {
     <section className={styles.section} id="inquiry">
       <div className={styles.content}>
         <div className={styles.copy}>
-          <p className={styles.eyebrow}>Inquiry Form</p>
+          <p className={styles.eyebrow}>Enquiry Form</p>
           <h2 className={styles.title}>Talk to our team about the right course.</h2>
           <p className={styles.description}>
             Share your details and course interest. We will connect with you to
@@ -105,7 +105,7 @@ function InquiryForm() {
           </label>
 
           <button className={styles.button} type="submit">
-            Submit Inquiry
+            Submit Enquiry
           </button>
         </form>
       </div>
