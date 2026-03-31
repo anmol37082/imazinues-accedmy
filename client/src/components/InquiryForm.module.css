@@ -1,3 +1,6 @@
+/* ========== COMPLETE CSS FILE ========== */
+
+/* ========== BASE STYLES ========== */
 .section {
   width: 100%;
   padding: 40px 32px;
@@ -13,9 +16,10 @@
   background: rgba(255, 255, 255, 0.86);
   border: 1px solid rgba(17, 24, 39, 0.08);
   border-radius: 34px;
-  overflow: visible; /* Dropdown ko dikhane ke liye visible rakha hai */
+  overflow: visible;
 }
 
+/* ========== VISUAL PANEL ========== */
 .visualPanel {
   position: relative;
   padding: 24px 28px 20px;
@@ -50,7 +54,6 @@
   font-family: "Sora", sans-serif;
   font-size: 0.62rem;
   font-weight: 500;
-  
 }
 
 .visualLines {
@@ -62,6 +65,7 @@
   white-space: pre-wrap;
 }
 
+/* ========== FORM PANEL ========== */
 .formPanel {
   display: flex;
   flex-direction: column;
@@ -88,17 +92,15 @@
   color: #6b7280;
   font-size: 0.95rem;
   font-family: "Sora", sans-serif;
-  line-height: 1.5; /* Line spacing consistent rakhi hai */
+  line-height: 1.5;
 }
 
-/* "your booking" ki styling (Next line par lane ke liye JSX mein <br/> use karein) */
 .subtitle2 {
-  font-weight: 400; /* Isse text light ho jayega (normal font weight) */
-  color: #6b7280; /* Same color as main subtitle text */
-  display: inline-block; /* Alignment standard rahegi */
+  font-weight: 400;
+  color: #6b7280;
+  display: inline-block;
 }
 
-/* Optional: "your booking" ke niche ek choti green line (Academy theme) */
 .subtitle2::after {
   content: "";
   position: absolute;
@@ -106,11 +108,11 @@
   left: 0;
   width: 100%;
   height: 4px;
-  background: rgba(0, 239, 2, 0.2); /* Light Green highlight */
+  background: rgba(0, 239, 2, 0.2);
   z-index: -1;
 }
 
-
+/* ========== FORM ELEMENTS ========== */
 .form {
   display: grid;
   gap: 14px;
@@ -132,6 +134,11 @@
   box-shadow: 0 0 0 4px rgba(0, 239, 2, 0.1);
 }
 
+.fieldError {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+}
+
 .input {
   width: 100%;
   padding: 0 14px;
@@ -141,7 +148,13 @@
   font-size: 0.84rem;
 }
 
-/* --- Custom Dropdown --- */
+.input::placeholder {
+  color: #bac0cb;
+  font-weight: 300;
+  opacity: 1;
+}
+
+/* ========== DROPDOWN ========== */
 .dropdownContainer {
   position: relative;
   width: 100%;
@@ -155,12 +168,6 @@
 
 .placeholder { color: #828a92; font-size: 0.84rem; }
 .selectedText { color: #000; font-size: 0.84rem; }
-
-.input::placeholder {
-  color: #bac0cb;   /* Light grey color */
-  font-weight: 300;  /* Extra light weight */
-  opacity: 1;        /* Firefox fix */
-}
 
 .arrow {
   width: 12px;
@@ -191,13 +198,20 @@
   transition: all 0.2s ease;
 }
 
-/* GREEN HOVER FIX YAHAN HAI */
 .optionItem:hover {
   background-color: #00EF02;
   color: #111827;
 }
 
-/* --- Submit Button --- */
+.errorText {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 4px;
+  font-family: "Sora", sans-serif;
+  display: block;
+}
+
+/* ========== SUBMIT BUTTON ========== */
 .submitButton {
   min-height: 56px;
   margin-top: 4px;
@@ -223,19 +237,7 @@
 
 .btnIcon { width: 22px; height: 22px; flex-shrink: 0; }
 
-@keyframes simpleFade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes simpleFadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
-@media (max-width: 1040px) { .shell { grid-template-columns: 1fr; } }
-@media (max-width: 520px) {
-  .section { padding: 20px 12px; }
-  .submitButton { font-size: 18px; }
-}
-
-
-
-
-
+/* ========== CONFETTI & OVERLAY ========== */
 .confettiCanvas {
   position: fixed;
   top: 0;
@@ -246,7 +248,6 @@
   z-index: 9999;
 }
 
-/* Overlay Background */
 .overlay {
   position: fixed;
   top: 0;
@@ -258,7 +259,7 @@
   animation: fadeIn 0.3s ease;
 }
 
-/* Thank You Popup */
+/* ========== THANK YOU POPUP ========== */
 .thankYouPopup {
   position: fixed;
   top: 50%;
@@ -272,10 +273,13 @@
   z-index: 10000;
   opacity: 0;
   animation: popupShow 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-  min-width: 320px;
+  width: 90vw;
+  max-width: 400px;
+  min-width: 300px;
+  box-sizing: border-box;
+  margin: 0;
 }
 
-/* Checkmark Circle */
 .checkmark {
   width: 80px;
   height: 80px;
@@ -292,7 +296,6 @@
   box-shadow: 0 10px 30px rgba(0, 239, 2, 0.4);
 }
 
-/* Thank You Title */
 .thankYouTitle {
   color: #111827;
   font-family: "Sora", sans-serif;
@@ -302,7 +305,6 @@
   animation: fadeInUp 0.5s ease 0.3s both;
 }
 
-/* Thank You Text */
 .thankYouText {
   color: #6b7280;
   font-family: "Sora", sans-serif;
@@ -311,9 +313,8 @@
   animation: fadeInUp 0.5s ease 0.4s both;
 }
 
-/* Thank You Subtext */
 .thankYouSubtext {
-  color: #00EF02;
+  color: #00c853;
   font-family: "Sora", sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -321,78 +322,7 @@
   animation: fadeInUp 0.5s ease 0.5s both;
 }
 
-/* Form Hidden State */
-.formHidden {
-  opacity: 0;
-  transform: scale(0.95);
-  pointer-events: none;
-  transition: all 0.5s ease;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes popupShow {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.8);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.05);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@keyframes checkmarkScale {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Mobile Responsive */
-@media (max-width: 520px) {
-  .thankYouPopup {
-    padding: 40px 30px;
-    min-width: 280px;
-    margin: 0 20px;
-  }
-
-  .thankYouTitle {
-    font-size: 26px;
-  }
-
-  .checkmark {
-    width: 70px;
-    height: 70px;
-    font-size: 35px;
-  }
-}
-
-
-/* Close Button */
+/* ========== CLOSE BUTTON ========== */
 .closeButton {
   position: absolute;
   top: 15px;
@@ -420,18 +350,36 @@
   transform: rotate(90deg);
 }
 
-.errorText {
-  color: #898383cc;
-  font-size: 0.75rem;
-  margin-top: 4px;
-  font-family: "Sora", sans-serif;
+/* ========== FORM HIDDEN ========== */
+.formHidden {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+  transition: all 0.5s ease;
 }
 
-@media (min-width: 1041px) {
-  .visualPanel {
-    min-height: auto;
-  }
+/* ========== ANIMATIONS ========== */
+@keyframes simpleFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes simpleFadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes popupShow {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+  50% { transform: translate(-50%, -50%) scale(1.05); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes checkmarkScale {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
+/* ========== DESKTOP ========== */
+@media (min-width: 1041px) {
+  .visualPanel { min-height: auto; }
   .imageFrame {
     width: min(100%, 360px);
     aspect-ratio: 1.1 / 0.78;
@@ -439,13 +387,15 @@
   }
 }
 
-/* Mobile pe grid layout - dono slides same space lein */
+/* ========== TABLET & MOBILE ========== */
 @media (max-width: 1040px) {
+  .shell { grid-template-columns: 1fr; }
+
   .visualPanel {
     min-height: auto;
     height: auto;
     display: grid;
-    grid-template-rows: 200px auto; /* Fixed 200px for image, auto for text */
+    grid-template-rows: 200px auto;
     gap: 15px;
     padding: 20px 20px 25px;
     align-items: start;
@@ -454,7 +404,7 @@
   .imageFrame {
     width: 100%;
     max-width: 320px;
-    height: 200px; /* FIXED HEIGHT - dono slides mein same */
+    height: 200px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -476,7 +426,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    min-height: 100px; /* Fixed minimum height for text area */
+    min-height: 100px;
   }
 
   .visualBrand {
@@ -488,7 +438,7 @@
     line-height: 1.3;
     margin: 0;
     font-size: clamp(0.9rem, 3vw, 1.1rem);
-    min-height: 80px; /* Fixed text height */
+    min-height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -496,7 +446,56 @@
   }
 }
 
-/* Extra small devices ke liye */
+/* ========== POPUP CENTER FIX ========== */
+@media (max-width: 768px) {
+  .thankYouPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 85vw;
+    max-width: 350px;
+    min-width: 280px;
+    padding: 40px 30px;
+    margin: 0;
+  }
+}
+
+/* ========== SMALL MOBILE ========== */
+@media (max-width: 520px) {
+  .section { padding: 20px 12px; }
+  .submitButton { font-size: 18px; }
+
+  .thankYouPopup {
+    width: 90vw;
+    max-width: 320px;
+    min-width: 260px;
+    padding: 35px 25px;
+  }
+
+  .thankYouTitle { font-size: 24px; }
+  .thankYouText { font-size: 14px; }
+  .thankYouSubtext { font-size: 13px; }
+
+  .checkmark {
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    margin-bottom: 15px;
+  }
+
+  .closeButton {
+    top: 10px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    font-size: 24px;
+  }
+}
+
+/* ========== EXTRA SMALL ========== */
 @media (max-width: 480px) {
   .visualPanel {
     grid-template-rows: 180px auto;
@@ -509,12 +508,20 @@
     height: 180px;
   }
 
-  .visualCopy {
-    min-height: 90px;
-  }
+  .visualCopy { min-height: 90px; }
 
   .visualLines {
     font-size: 0.85rem;
     min-height: 70px;
   }
+}
+
+@media (max-width: 360px) {
+  .thankYouPopup {
+    width: 92vw;
+    max-width: 300px;
+    padding: 30px 20px;
+  }
+
+  .thankYouTitle { font-size: 22px; }
 }
