@@ -28,25 +28,20 @@ const slides = [
 
 function InquiryForm() {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    let fadeTimer;
+    slides.forEach((slide) => {
+      const image = new Image();
+      image.src = slide.image;
+    });
+  }, []);
 
+  useEffect(() => {
     const intervalId = window.setInterval(() => {
-      setIsVisible(false);
-      fadeTimer = window.setTimeout(() => {
-        setActiveSlide((current) => (current + 1) % slides.length);
-        setIsVisible(true);
-      }, 350);
-    }, 3500);
+      setActiveSlide((current) => (current + 1) % slides.length);
+    }, 9000);
 
-    return () => {
-      window.clearInterval(intervalId);
-      if (fadeTimer) {
-        window.clearTimeout(fadeTimer);
-      }
-    };
+    return () => window.clearInterval(intervalId);
   }, []);
 
   const handleSubmit = (event) => {
@@ -59,11 +54,7 @@ function InquiryForm() {
     <section className={styles.section} id="inquiry">
       <div className={styles.shell}>
         <div className={styles.visualPanel}>
-          <div
-            className={`${styles.imageFrame} ${
-              isVisible ? styles.contentVisible : styles.contentHidden
-            }`}
-          >
+          <div key={currentSlide.image} className={styles.imageFrame}>
             <img
               className={styles.slideImage}
               src={currentSlide.image}
@@ -71,11 +62,7 @@ function InquiryForm() {
             />
           </div>
 
-          <div
-            className={`${styles.visualCopy} ${
-              isVisible ? styles.contentVisible : styles.contentHidden
-            }`}
-          >
+          <div key={currentSlide.text} className={styles.visualCopy}>
             <p className={styles.visualBrand}>Imazinus Academy</p>
             <p className={styles.visualLines}>{currentSlide.text}</p>
           </div>

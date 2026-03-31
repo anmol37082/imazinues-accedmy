@@ -47,24 +47,14 @@
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-.contentVisible {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.contentHidden {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  animation: simpleFade 1.8s ease;
 }
 
 .visualCopy {
   max-width: 420px;
   margin: 20px auto 0;
   text-align: center;
+  animation: simpleFadeUp 1.8s ease;
 }
 
 .visualBrand {
@@ -85,6 +75,28 @@
   font-weight: 600;
   line-height: 1.35;
   letter-spacing: -0.02em;
+}
+
+@keyframes simpleFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes simpleFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .formPanel {
