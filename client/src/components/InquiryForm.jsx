@@ -78,10 +78,14 @@ function InquiryForm() {
 
         {/* Right Side: Form */}
         <div className={styles.formPanel}>
-          <div className={styles.formIntro}>
-            <h3 className={styles.formTitle}>Ready to join offline classes?</h3>
-            <p className={styles.formSubtitle}>Complete the form and confirm<br/><span className={styles.subtitle2}>your booking</span></p>
-          </div>
+         <div className={styles.formIntro}>
+  <h3 className={styles.formTitle}>Ready to join offline classes?</h3>
+  <p className={styles.formSubtitle}>
+    Complete the form and confirm
+    <br /> {/* Isse next line mein break milega */}
+    <span className={styles.subtitle2}>your booking</span>
+  </p>
+</div>
 
           <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
             <label className={styles.field}>
