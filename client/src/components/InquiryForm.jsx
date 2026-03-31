@@ -26,7 +26,12 @@ function InquiryForm() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
+  const [courseError, setCourseError] = useState(false); // Error state for dropdown
   const dropdownRef = useRef(null);
+  const canvasRef = useRef(null);
+  const formRef = useRef(null);
 
   // Preload Images
   useEffect(() => {
@@ -55,16 +60,145 @@ function InquiryForm() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Lock scroll when popup shows
+  useEffect(() => {
+    if (showThankYou) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [showThankYou]);
+
+  // Confetti Animation Function
+  const startConfetti = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+    const particleCount = 150;
+    const colors = ["#00EF02", "#00c853", "#76ff03", "#64dd17", "#aeea00", "#ffeb3b", "#ff9800", "#ff5722"];
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        vx: (Math.random() - 0.5) * 15,
+        vy: (Math.random() - 0.5) * 15 - 5,
+        size: Math.random() * 8 + 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rotation: Math.random() * 360,
+        rotationSpeed: (Math.random() - 0.5) * 10,
+        gravity: 0.2,
+        opacity: 1,
+      });
+    }
+
+    let animationId;
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      let activeParticles = 0;
+
+      particles.forEach((particle) => {
+        if (particle.opacity > 0) {
+          particle.x += particle.vx;
+          particle.y += particle.vy;
+          particle.vy += particle.gravity;
+          particle.rotation += particle.rotationSpeed;
+          particle.opacity -= 0.005;
+
+          ctx.save();
+          ctx.translate(particle.x, particle.y);
+          ctx.rotate((particle.rotation * Math.PI) / 180);
+          ctx.globalAlpha = particle.opacity;
+          ctx.fillStyle = particle.color;
+          ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
+          ctx.restore();
+          activeParticles++;
+        }
+      });
+
+      if (activeParticles > 0) {
+        animationId = requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
+
+    setTimeout(() => {
+      cancelAnimationFrame(animationId);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }, 4000);
+  };
+
   const handleSelect = (course) => {
     setSelectedCourse(course);
+    setCourseError(false); // Clear error when course selected
     setIsOpen(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Check if course is selected
+    if (!selectedCourse) {
+      setCourseError(true);
+      // Scroll to dropdown or focus
+      dropdownRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    // Hide form
+    setIsSubmitted(true);
+
+    // Show thank you popup after delay
+    setTimeout(() => {
+      setShowThankYou(true);
+      startConfetti();
+    }, 300);
+  };
+
+  const handleClosePopup = () => {
+    setShowThankYou(false);
+    setIsSubmitted(false);
+    setSelectedCourse("");
+    setCourseError(false);
+    // Reset form fields
+    if (formRef.current) {
+      formRef.current.reset();
+    }
   };
 
   const currentSlide = slides[activeSlide];
 
   return (
     <section className={styles.section} id="inquiry">
-      <div className={styles.shell}>
+      {/* Confetti Canvas */}
+      <canvas ref={canvasRef} className={styles.confettiCanvas} />
+
+      {/* Overlay */}
+      {showThankYou && <div className={styles.overlay} onClick={handleClosePopup} />}
+
+      {/* Thank You Popup */}
+      {showThankYou && (
+        <div className={styles.thankYouPopup}>
+          <button className={styles.closeButton} onClick={handleClosePopup}>×</button>
+          <div className={styles.checkmark}>✓</div>
+          <h3 className={styles.thankYouTitle}>Thank You!</h3>
+          <p className={styles.thankYouText}>Your enquiry has been submitted successfully.</p>
+          <p className={styles.thankYouSubtext}>We will contact you soon!</p>
+        </div>
+      )}
+
+      <div className={`${styles.shell} ${isSubmitted ? styles.formHidden : ""}`}>
         {/* Left Side: Visuals */}
         <div className={styles.visualPanel}>
           <div key={currentSlide.image} className={styles.imageFrame}>
@@ -78,16 +212,16 @@ function InquiryForm() {
 
         {/* Right Side: Form */}
         <div className={styles.formPanel}>
-         <div className={styles.formIntro}>
-  <h3 className={styles.formTitle}>Ready to join offline classes?</h3>
-  <p className={styles.formSubtitle}>
-    Complete the form and confirm
-    <br /> {/* Isse next line mein break milega */}
-    <span className={styles.subtitle2}>your booking</span>
-  </p>
-</div>
+          <div className={styles.formIntro}>
+            <h3 className={styles.formTitle}>Ready to join offline classes?</h3>
+            <p className={styles.formSubtitle}>
+              Complete the form and confirm
+              <br />
+              <span className={styles.subtitle2}>your booking</span>
+            </p>
+          </div>
 
-          <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+          <form ref={formRef} className={styles.form} onSubmit={handleSubmit}>
             <label className={styles.field}>
               <input className={styles.input} type="text" placeholder="Full Name" required />
             </label>
@@ -100,23 +234,31 @@ function InquiryForm() {
               <input className={styles.input} type="email" placeholder="Email Address" required />
             </label>
 
-            {/* Custom Dropdown for Green Hover */}
+            {/* Custom Dropdown with Required Validation */}
             <div className={styles.dropdownContainer} ref={dropdownRef}>
-              <div 
-                className={`${styles.field} ${styles.customSelect} ${isOpen ? styles.fieldActive : ""}`} 
-                onClick={() => setIsOpen(!isOpen)}
+              <div
+                className={`${styles.field} ${styles.customSelect} ${isOpen ? styles.fieldActive : ""} ${courseError ? styles.fieldError : ""}`}
+                onClick={() => {
+                  setIsOpen(!isOpen);
+                  setCourseError(false); // Clear error on click
+                }}
               >
                 <span className={selectedCourse ? styles.selectedText : styles.placeholder}>
-                  {selectedCourse || "Select Course"}
+                  {selectedCourse || "Select Course *"}
                 </span>
                 <span className={`${styles.arrow} ${isOpen ? styles.arrowUp : ""}`}></span>
               </div>
 
+              {/* Error Message */}
+              {courseError && (
+                <span className={styles.errorText}>Please select a course</span>
+              )}
+
               {isOpen && (
                 <ul className={styles.optionsList}>
                   {courseOptions.map((course) => (
-                    <li 
-                      key={course} 
+                    <li
+                      key={course}
                       className={styles.optionItem}
                       onClick={() => handleSelect(course)}
                     >

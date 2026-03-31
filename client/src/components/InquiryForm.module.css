@@ -231,3 +231,290 @@
   .section { padding: 20px 12px; }
   .submitButton { font-size: 18px; }
 }
+
+
+
+
+
+.confettiCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Overlay Background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9998;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Thank You Popup */
+.thankYouPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: white;
+  padding: 50px 60px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  opacity: 0;
+  animation: popupShow 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  min-width: 320px;
+}
+
+/* Checkmark Circle */
+.checkmark {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00EF02 0%, #00c853 100%);
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: white;
+  font-weight: bold;
+  animation: checkmarkScale 0.5s ease 0.2s both;
+  box-shadow: 0 10px 30px rgba(0, 239, 2, 0.4);
+}
+
+/* Thank You Title */
+.thankYouTitle {
+  color: #111827;
+  font-family: "Sora", sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  animation: fadeInUp 0.5s ease 0.3s both;
+}
+
+/* Thank You Text */
+.thankYouText {
+  color: #6b7280;
+  font-family: "Sora", sans-serif;
+  font-size: 16px;
+  margin: 0 0 8px 0;
+  animation: fadeInUp 0.5s ease 0.4s both;
+}
+
+/* Thank You Subtext */
+.thankYouSubtext {
+  color: #00EF02;
+  font-family: "Sora", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  animation: fadeInUp 0.5s ease 0.5s both;
+}
+
+/* Form Hidden State */
+.formHidden {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+  transition: all 0.5s ease;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popupShow {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes checkmarkScale {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 520px) {
+  .thankYouPopup {
+    padding: 40px 30px;
+    min-width: 280px;
+    margin: 0 20px;
+  }
+
+  .thankYouTitle {
+    font-size: 26px;
+  }
+
+  .checkmark {
+    width: 70px;
+    height: 70px;
+    font-size: 35px;
+  }
+}
+
+
+/* Close Button */
+.closeButton {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 28px;
+  font-weight: 300;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  line-height: 1;
+  padding: 0;
+}
+
+.closeButton:hover {
+  background: #f3f4f6;
+  color: #111827;
+  transform: rotate(90deg);
+}
+
+.errorText {
+  color: #898383cc;
+  font-size: 0.75rem;
+  margin-top: 4px;
+  font-family: "Sora", sans-serif;
+}
+
+@media (min-width: 1041px) {
+  .visualPanel {
+    min-height: auto;
+  }
+
+  .imageFrame {
+    width: min(100%, 360px);
+    aspect-ratio: 1.1 / 0.78;
+    margin: 14px auto 40px;
+  }
+}
+
+/* Mobile pe grid layout - dono slides same space lein */
+@media (max-width: 1040px) {
+  .visualPanel {
+    min-height: auto;
+    height: auto;
+    display: grid;
+    grid-template-rows: 200px auto; /* Fixed 200px for image, auto for text */
+    gap: 15px;
+    padding: 20px 20px 25px;
+    align-items: start;
+  }
+
+  .imageFrame {
+    width: 100%;
+    max-width: 320px;
+    height: 200px; /* FIXED HEIGHT - dono slides mein same */
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .slideImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .visualCopy {
+    max-width: 100%;
+    margin: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100px; /* Fixed minimum height for text area */
+  }
+
+  .visualBrand {
+    margin: 0 0 8px;
+    font-size: 0.6rem;
+  }
+
+  .visualLines {
+    line-height: 1.3;
+    margin: 0;
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    min-height: 80px; /* Fixed text height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+/* Extra small devices ke liye */
+@media (max-width: 480px) {
+  .visualPanel {
+    grid-template-rows: 180px auto;
+    gap: 12px;
+    padding: 15px 15px 20px;
+  }
+
+  .imageFrame {
+    max-width: 280px;
+    height: 180px;
+  }
+
+  .visualCopy {
+    min-height: 90px;
+  }
+
+  .visualLines {
+    font-size: 0.85rem;
+    min-height: 70px;
+  }
+}
