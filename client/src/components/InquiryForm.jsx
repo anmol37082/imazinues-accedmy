@@ -13,7 +13,7 @@ const slides = [
   {
     image: encodeURI("/inquryform/28480869_Tiny graphic designer drawing with big pen on computer screen.svg"),
     alt: "Graphic design inquiry visual",
-    text: "Designing today, to define\ntomorrow,",
+    text: "Designing today, to define\ntomorrow",
   },
   {
     image: "/inquryform/4137653_2168227.svg",
@@ -71,7 +71,7 @@ function InquiryForm() {
             <img className={styles.slideImage} src={currentSlide.image} alt={currentSlide.alt} />
           </div>
           <div key={currentSlide.text} className={styles.visualCopy}>
-            <p className={styles.visualBrand}>Imazinus Academy</p>
+            <p className={styles.visualBrand}>Imazineus Academy</p>
             <p className={styles.visualLines}>{currentSlide.text}</p>
           </div>
         </div>
