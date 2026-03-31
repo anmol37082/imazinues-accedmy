@@ -6,6 +6,9 @@ const courseOptions = [
   "Video Editing",
   "Digital Marketing",
   "Web Development",
+  "Graphic Designing + Video Editing",
+  
+
 ];
 
 const slides = [
@@ -14,12 +17,12 @@ const slides = [
       "/inquryform/28480869_Tiny graphic designer drawing with big pen on computer screen.svg"
     ),
     alt: "Graphic design inquiry visual",
-    lines: ["Master Video", "Editing Skills with", "Real Practice."],
+    text: "Designing today, to define tomorrow,",
   },
   {
     image: "/inquryform/4137653_2168227.svg",
     alt: "Creative course inquiry visual",
-    lines: ["Learn Reels and", "Cinematic Editing in", "Offline Classes."],
+    text: "Learn video editing today to make content that stands out Tomorrow",
   },
 ];
 
@@ -74,13 +77,7 @@ function InquiryForm() {
             }`}
           >
             <p className={styles.visualBrand}>Imazinus Academy</p>
-            <p className={styles.visualLines}>
-              {currentSlide.lines[0]}
-              <br />
-              {currentSlide.lines[1]}
-              <br />
-              {currentSlide.lines[2]}
-            </p>
+            <p className={styles.visualLines}>{currentSlide.text}</p>
           </div>
         </div>
 
@@ -123,7 +120,7 @@ function InquiryForm() {
 
             <label className={styles.field}>
               <select className={styles.select} name="course" defaultValue="">
-                <option value="" disabled>
+                <option value="" disabled hidden>
                   Select Course
                 </option>
                 {courseOptions.map((course) => (
