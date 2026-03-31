@@ -1,0 +1,212 @@
+.footer {
+  width: 100%;
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  color: #e5e7eb;
+  padding: 48px 24px 24px;
+  box-sizing: border-box;
+  margin-top: 60px;
+}
+
+.container {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 36px;
+  margin-bottom: 32px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.heading {
+  margin: 0;
+  color: #ffffff;
+  font-family: "Sora", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.text {
+  margin: 0;
+  color: #d1d5db;
+  font-family: "Sora", sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.link {
+  color: #d1d5db;
+  text-decoration: none;
+  font-family: "Sora", sans-serif;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #2563eb;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.socialIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(37, 99, 235, 0.15);
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-family: "Sora", sans-serif;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.socialIcon:hover {
+  background: #2563eb;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.socialIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.instaIcon {
+  background: linear-gradient(135deg, #fd5949 0%, #d6249f 50%, #285AEB 100%);
+  color: #ffffff;
+}
+
+.instaIcon:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(253, 89, 73, 0.3);
+}
+
+.fbIcon {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.fbIcon:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+  background: #1d4ed8;
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(229, 231, 235, 0.2);
+  margin: 32px 0;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.copyright {
+  margin: 0;
+  color: #9ca3af;
+  font-family: "Sora", sans-serif;
+  font-size: 0.85rem;
+}
+
+.cta {
+  margin: 0;
+  color: #d1d5db;
+  font-family: "Sora", sans-serif;
+  font-size: 0.9rem;
+}
+
+.ctaLink {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.ctaLink:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer {
+    padding: 36px 16px 20px;
+    margin-top: 40px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .heading {
+    font-size: 0.95rem;
+  }
+
+  .bottom {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 520px) {
+  .footer {
+    padding: 28px 12px 16px;
+    margin-top: 32px;
+  }
+
+  .heading {
+    font-size: 0.9rem;
+  }
+
+  .text,
+  .link,
+  .copyright,
+  .cta {
+    font-size: 0.8rem;
+  }
+
+  .socialIcon {
+    width: 32px;
+    height: 32px;
+    font-size: 0.7rem;
+  }
+}

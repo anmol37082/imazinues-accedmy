@@ -7,6 +7,7 @@ import InquiryForm from "../components/InquiryForm";
 import Reviews from "../components/Reviews";
 import StatsAndFacts from "../components/StatsAndFacts";
 import Webvideobnnaer from "../components/Webvideobnnaer";
+import Footer from "../components/Footer";
 
 function HomePage() {
   const siteUrl = "https://imazineus.com";
@@ -108,6 +109,7 @@ function HomePage() {
       <Webvideobnnaer />
       <InquiryForm />
       <Reviews />
+      <Footer />
     </>
   );
 }
