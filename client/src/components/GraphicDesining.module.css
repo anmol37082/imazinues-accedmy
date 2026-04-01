@@ -265,6 +265,7 @@
   scrollbar-width: none;
 }
 
+
 .track::-webkit-scrollbar {
   display: none;
 }
@@ -420,8 +421,9 @@
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
   font-size: 0.8rem;
   cursor: pointer;
+   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+ 
 }
 
 .arrow {

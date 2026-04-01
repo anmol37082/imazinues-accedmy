@@ -19,7 +19,7 @@
   height: clamp(360px, 52vw, 640px);
   object-fit: cover;
   background: #ffffff;
-  vertical-align: top;
+ 
   border: 0;
 }
 

@@ -3,6 +3,7 @@ import GraphicDesining from "../components/GraphicDesining";
 import VideoEditing from "../components/VideoEditing";
 import HomeBanner from "../components/HomeBanner";
 import HomeBanner2 from "../components/HomeBanner2";
+import HomeBanner3 from "../components/HomeBanner3";
 import Header from "../components/Header";
 import InquiryForm from "../components/InquiryForm";
 import Reviews from "../components/Reviews";
@@ -107,8 +108,9 @@ function HomePage() {
       <StatsAndFacts />
       <HomeBanner2 />
       <GraphicDesining />
+     < HomeBanner3 />
+     <Webvideobnnaer />
       <VideoEditing />
-      <Webvideobnnaer />
       <Reviews />
        <InquiryForm />
       <Footer />

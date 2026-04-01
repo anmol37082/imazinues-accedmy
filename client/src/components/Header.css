@@ -215,8 +215,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 24px;
+   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   box-shadow: -24px 0 60px rgba(0, 0, 0, 0.22);
 }
 

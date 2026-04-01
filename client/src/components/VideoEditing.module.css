@@ -1,6 +1,6 @@
 .section {
   width: 100%;
-  padding: 0px 0 72px 32px;
+  padding: 72px 0 72px 32px;
   background: #ffffff;
   box-sizing: border-box;
 }
@@ -406,8 +406,9 @@
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
   font-size: 0.8rem;
   cursor: pointer;
+   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+ 
 }
 
 .arrow {
