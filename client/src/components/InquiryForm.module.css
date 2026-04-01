@@ -280,20 +280,20 @@
   margin: 0;
 }
 
-.checkmark {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #00EF02 0%, #00c853 100%);
+/* ✅ NAYA: Checkmark Container for SVG */
+.checkmarkContainer {
   margin: 0 auto 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px;
-  color: white;
-  font-weight: bold;
   animation: checkmarkScale 0.5s ease 0.2s both;
-  box-shadow: 0 10px 30px rgba(0, 239, 2, 0.4);
+}
+
+/* ✅ NAYA: Checkmark SVG Styles */
+.checkmarkSvg {
+  width: 80px;
+  height: 80px;
+  filter: drop-shadow(0 10px 30px rgba(107, 190, 102, 0.4));
 }
 
 .thankYouTitle {
@@ -348,6 +348,10 @@
   background: #f3f4f6;
   color: #111827;
   transform: rotate(90deg);
+    display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 
 /* ========== FORM HIDDEN ========== */
@@ -478,10 +482,13 @@
   .thankYouText { font-size: 14px; }
   .thankYouSubtext { font-size: 13px; }
 
-  .checkmark {
+  /* ✅ Updated checkmark sizes for mobile */
+  .checkmarkSvg {
     width: 60px;
     height: 60px;
-    font-size: 30px;
+  }
+
+  .checkmarkContainer {
     margin-bottom: 15px;
   }
 
@@ -523,4 +530,10 @@
   }
 
   .thankYouTitle { font-size: 22px; }
+  
+  /* ✅ Smaller checkmark for very small screens */
+  .checkmarkSvg {
+    width: 50px;
+    height: 50px;
+  }
 }

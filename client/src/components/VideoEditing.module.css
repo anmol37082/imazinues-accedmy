@@ -66,26 +66,28 @@
   align-items: center;
   justify-content: center;
   width: auto;
-  height: 32px;
+  height: 48px;
   padding: 0;
   border-radius: 0;
-  border: 1px solid rgba(17, 17, 17, 0.1);
-  box-shadow: 0 12px 24px rgba(17, 17, 17, 0.08);
+  border: none;
+  box-shadow: none;
   font-family: "Sora", sans-serif;
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.04em;
   overflow: visible;
+  background: transparent;
 }
 
 .softwareIcon + .softwareIcon {
-  margin-left: 5px;
+  margin-left: 8px;
 }
 
 .softwareSvg {
   display: block;
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
 }
 
 /* Premiere Pro Icon */
@@ -96,24 +98,8 @@
 }
 
 .premiereIcon .softwareSvg {
-  width: 44px;
-  height: 44px;
-}
-
-/* Transitions Icon */
-.transitionIcon {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-}
-
-.transitionIcon .softwareSvg {
-  width: 44px;
-  height: 44px;
-}
-
-.transitionIcon .softwareSvg path {
-  stroke: #111111;
+  width: 48px;
+  height: 48px;
 }
 
 /* After Effects Icon */
@@ -124,8 +110,22 @@
 }
 
 .afterEffectsIcon .softwareSvg {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
+}
+
+/* CapCut Icon */
+.capcutIcon {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.capcutIcon .softwareSvg {
+  width: 48px;
+  height: 48px;
+  background: #000000;
+  border-radius: 12px;
 }
 
 .softwareLabel {
@@ -564,12 +564,17 @@
 
   .softwareIcon {
     width: auto;
-    height: 30px;
+    height: 48px;
     font-size: 0.96rem;
   }
 
   .softwareIcon + .softwareIcon {
-    margin-left: 4px;
+    margin-left: 8px;
+  }
+
+  .softwareSvg {
+    width: 44px;
+    height: 44px;
   }
 
   .pill {
