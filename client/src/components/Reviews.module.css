@@ -1,7 +1,7 @@
 .section {
   position: relative;
   width: 100%;
-  padding: 44px 28px 72px;
+  padding: 44px 28px 32px;
   background: #ffffff;
   box-sizing: border-box;
   overflow: hidden;
@@ -28,7 +28,6 @@
   font-weight: 700;
   line-height: 1.04;
   letter-spacing: -0.06em;
-  text-wrap: balance;
 }
 
 .summary {

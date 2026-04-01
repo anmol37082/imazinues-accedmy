@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import GraphicDesining from "../components/GraphicDesining";
+import VideoEditing from "../components/VideoEditing";
 import HomeBanner from "../components/HomeBanner";
 import HomeBanner2 from "../components/HomeBanner2";
 import Header from "../components/Header";
@@ -106,9 +107,10 @@ function HomePage() {
       <StatsAndFacts />
       <HomeBanner2 />
       <GraphicDesining />
+      <VideoEditing />
       <Webvideobnnaer />
-      <InquiryForm />
       <Reviews />
+       <InquiryForm />
       <Footer />
     </>
   );
