@@ -4,7 +4,7 @@ function HomeBanner2() {
   return (
     <section className={styles.bannerSection}>
       <picture>
-        <source media="(max-width: 540px)" srcSet="/banner2mobileview.png" />
+        <source media="(max-width: 540px)" srcSet="/banner2mobileview.webp" />
         <img
           className={styles.bannerImage}
           src="/Homepage%20Banner%202%20copy.webp"

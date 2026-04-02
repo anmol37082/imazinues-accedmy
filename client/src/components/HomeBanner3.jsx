@@ -6,7 +6,7 @@ function HomeBanner3() {
       <picture>
         <source
           media="(max-width: 540px)"
-          srcSet="/mobileviewbanner3.png"
+          srcSet="/mobileviewbanner3.webp"
         />
         <img
           className={styles.bannerImage}

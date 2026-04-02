@@ -312,10 +312,7 @@
     grid-template-columns: 1fr;
   }
 
-  .card {
-    min-height: auto;
-  }
-
+  
   .cardTitle,
   .quote {
     max-width: 100%;

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import styles from "./VideoEditing.module.css";
 
 const softwareIcons = [
@@ -152,8 +152,140 @@ const cards = [
   },
 ];
 
+const INITIAL_BATCH_DESKTOP = 5;
+const INITIAL_BATCH_MOBILE = 3;
+const LOAD_BATCH = 3;
+
 function VideoEditing() {
   const trackRef = useRef(null);
+  const titleRef = useRef(null);
+  const sectionRef = useRef(null);
+  const [revealedCount, setRevealedCount] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(INITIAL_BATCH_DESKTOP);
+
+  const titleText = "VIDEO EDITING";
+  const titleChars = titleText.split("");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(max-width: 540px)");
+    const updateIsMobile = (event) => setIsMobile(event.matches);
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", updateIsMobile);
+
+    return () => mediaQuery.removeEventListener("change", updateIsMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsActive(entry.isIntersecting),
+      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
+    );
+
+    observer.observe(sectionRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isActive) {
+      setRevealedCount(0);
+      return;
+    }  //* eslint-disable react-hooks/exhaustive-deps */
+
+    if (isMobile) {
+      let frameId = 0;
+      const duration = 650;
+      const startTime = performance.now();
+
+      const animateMobileReveal = (time) => {
+        const progress = Math.min((time - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const nextCount = Math.round(titleChars.length * eased);
+
+        setRevealedCount((current) => (current === nextCount ? current : nextCount));
+
+        if (progress < 1) {
+          frameId = window.requestAnimationFrame(animateMobileReveal);
+        }
+      };
+
+      frameId = window.requestAnimationFrame(animateMobileReveal);
+
+      return () => {
+        if (frameId) window.cancelAnimationFrame(frameId);
+      };
+    }
+
+    let frameId = 0;
+    let ticking = false;
+
+    const updateReveal = () => {
+      if (!titleRef.current) return;
+
+      const rect = titleRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const start = viewportHeight * 0.92;
+      const end = viewportHeight * 0.2;
+      const progress = ((start - rect.top) / (start - end)) * 100;
+      const nextCount = Math.round((Math.max(0, Math.min(100, progress)) / 100) * titleChars.length);
+
+      setRevealedCount((current) => (current === nextCount ? current : nextCount));
+    };
+
+    const requestRevealUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      frameId = window.requestAnimationFrame(() => {
+        ticking = false;
+        updateReveal();
+      });
+    };
+
+    updateReveal();
+    window.addEventListener("scroll", requestRevealUpdate, { passive: true });
+    window.addEventListener("resize", requestRevealUpdate);
+
+    return () => {
+      if (frameId) window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", requestRevealUpdate);
+      window.removeEventListener("resize", requestRevealUpdate);
+    };
+  }, [isMobile, isActive, titleChars.length]);
+
+  useEffect(() => {
+    const initialCount = isMobile ? INITIAL_BATCH_MOBILE : INITIAL_BATCH_DESKTOP;
+    setVisibleCount(Math.min(initialCount, cards.length));
+  }, [isMobile]);
+
+  const loadMoreCards = useCallback(() => {
+    setVisibleCount((current) => {
+      if (current >= cards.length) return current;
+      return Math.min(current + LOAD_BATCH, cards.length);
+    });
+  }, []);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const onTrackScroll = () => {
+      const nearEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 120;
+      if (nearEnd) {
+        loadMoreCards();
+      }
+    };
+
+    track.addEventListener("scroll", onTrackScroll, { passive: true });
+
+    return () => track.removeEventListener("scroll", onTrackScroll);
+  }, [loadMoreCards]);
 
   const scrollCards = (direction) => {
     if (!trackRef.current) {
@@ -168,10 +300,21 @@ function VideoEditing() {
       left: direction * (cardWidth + gap),
       behavior: "smooth",
     });
+
+    if (direction > 0) {
+      window.setTimeout(() => {
+        const track = trackRef.current;
+        if (!track) return;
+        const nearEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 120;
+        if (nearEnd) {
+          loadMoreCards();
+        }
+      }, 360);
+    }
   };
 
   return (
-    <section className={styles.section}>
+    <section ref={sectionRef} className={styles.section}>
       <div className={styles.header}>
         <div className={styles.cornerMeta}>
           <div className={styles.eyebrowWrap}>
@@ -188,7 +331,6 @@ function VideoEditing() {
                   aria-hidden="true"
                 >
                   {software.id === "pr" ? (
-                    // ✅ Premiere Pro SVG (1st position)
                     <svg 
                       xmlns="http://www.w3.org/2000/svg" 
                       viewBox="0 0 512.84 500.01"
@@ -205,7 +347,6 @@ function VideoEditing() {
                       <path className="pr-b" d="M313.26,182.06h37.39a4.8,4.8,0,0,1,4.49,3.42,21.39,21.39,0,0,1,1.28,5.34c.43,2.13.86,4.48,1.07,6.62.21,2.35.43,4.92.43,7.69a79.63,79.63,0,0,1,22.86-18.37,66.17,66.17,0,0,1,32.48-8.34,2.66,2.66,0,0,1,3,2.35V223.3c0,1.71-1.07,2.35-3.42,2.35a92.62,92.62,0,0,0-23.08,2.13,88.75,88.75,0,0,0-17.94,5.77,33.3,33.3,0,0,0-10.9,7.91v109c0,2.13-.86,3-2.78,3H316a3,3,0,0,1-3.41-2.57V231.63c0-5.13,0-10.47-.22-16s-.21-11.11-.43-16.66c0-4.92-.42-9.62-.85-14.53a2,2,0,0,1,1.5-2.35c0-.22.42-.22.64,0Z"/>
                     </svg>
                   ) : software.id === "ae" ? (
-                    // ✅ After Effects SVG (2nd position)
                     <svg 
                       xmlns="http://www.w3.org/2000/svg" 
                       viewBox="0 0 512.47 499.66"
@@ -222,7 +363,6 @@ function VideoEditing() {
                       <path className="ae-b" d="M400.12,279.37H332.39a48.27,48.27,0,0,0,6.53,18.94,35.4,35.4,0,0,0,15.64,12.89,65.36,65.36,0,0,0,27.34,5.36,123.33,123.33,0,0,0,22.17-2.44,81.58,81.58,0,0,0,19.06-5q1.72-1.36,1.72,1.72v32.66a4.15,4.15,0,0,1-2.06,4.13,87.51,87.51,0,0,1-21.3,6.34,150.47,150.47,0,0,1-30.25,2.58q-24.42,0-40.91-7.56a73,73,0,0,1-26.82-20.28,79.6,79.6,0,0,1-14.78-28,110.41,110.41,0,0,1-4.47-31.12,108.47,108.47,0,0,1,5.33-33.86,88.5,88.5,0,0,1,16-29.22,76.76,76.76,0,0,1,25.79-20.28c10.08-4.93,22-6.7,35.75-6.7a77.73,77.73,0,0,1,33.18,6.54,58.37,58.37,0,0,1,22.51,17,78,78,0,0,1,12.72,24.24,86.45,86.45,0,0,1,4.13,26.13q0,7.56-.52,13.75c-.34,4.12-.63,7.1-.85,8.94a3.13,3.13,0,0,1-3.1,2.75q-2.06,0-7.05.51c-3.32.35-7.45.57-12.37.69S405.62,279.37,400.12,279.37Zm-67.73-31.32h45q8.25,0,12.2-.17a12.13,12.13,0,0,0,5-1.65v-2.07a27.6,27.6,0,0,0-1.38-7.9,28.08,28.08,0,0,0-27.85-19.6A29.88,29.88,0,0,0,337,232.82,49.88,49.88,0,0,0,332.39,248.05Z"/>
                     </svg>
                   ) : software.id === "capcut" ? (
-                    // ✅ NAYI CapCut SVG (3rd position - Last)
                     <svg 
                       xmlns="http://www.w3.org/2000/svg" 
                       shapeRendering="geometricPrecision" 
@@ -250,8 +390,44 @@ function VideoEditing() {
         </div>
 
         <h2 className={styles.title}>
-          <span className={styles.titlePrimary}>Video Editing</span>
-          <br />
+          <span ref={titleRef} className={styles.titlePrimary}>
+            {/* Desktop - single line */}
+            <span className={styles.desktopText}>
+              {titleChars.map((char, index) => (
+                <span
+                  key={`${char}-${index}`}
+                  className={index < revealedCount ? `${styles.titleChar} ${styles.titleCharVisible}` : styles.titleChar}
+                >
+                  {char === " " ? "\u00A0" : char}
+                </span>
+              ))}
+            </span>
+            
+            {/* Mobile - two lines */}
+            <span className={styles.mobileText}>
+              <span className={styles.line1}>
+                {"VIDEO".split("").map((char, index) => (
+                  <span
+                    key={`v-${index}`}
+                    className={index < revealedCount ? `${styles.titleChar} ${styles.titleCharVisible}` : styles.titleChar}
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+              <span className={styles.line2}>
+                {"EDITING".split("").map((char, index) => (
+                  <span
+                    key={`e-${index}`}
+                    className={(index + 5) < revealedCount ? `${styles.titleChar} ${styles.titleCharVisible}` : styles.titleChar}
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+            </span>
+          </span>
+          <br className={styles.desktopBr} />
           <span className={styles.titleSecondary}>
             All the sections cover in 3 months
           </span>
@@ -285,11 +461,15 @@ function VideoEditing() {
       </div>
 
       <div ref={trackRef} className={styles.track}>
-        {cards.map((card) => (
+        {cards.slice(0, visibleCount).map((card, index) => (
           <article
             key={card.id}
-            className={styles.card}
-            style={{ "--card-bg": card.gradient, "--card-tint": card.tint }}
+            className={`${styles.card} ${styles.cardEnter}`}
+            style={{
+              "--card-bg": card.gradient,
+              "--card-tint": card.tint,
+              "--enter-delay": `${Math.min(index * 60, 300)}ms`,
+            }}
           >
             <div className={styles.content}>
               <div className={styles.topMeta}>
@@ -308,6 +488,8 @@ function VideoEditing() {
                 className={styles.artImage}
                 src={card.image}
                 alt={card.title}
+                loading="lazy"
+                decoding="async"
               />
               <button className={styles.readMore} type="button">
                 Read More

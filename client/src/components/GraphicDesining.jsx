@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import styles from "./GraphicDesining.module.css";
 
 const softwareIcons = [
@@ -205,8 +205,140 @@ const cards = [
   },
 ];
 
+const INITIAL_BATCH_DESKTOP = 5;
+const INITIAL_BATCH_MOBILE = 3;
+const LOAD_BATCH = 3;
+
 function GraphicDesining() {
   const trackRef = useRef(null);
+  const titleRef = useRef(null);
+  const sectionRef = useRef(null);
+  const [revealedCount, setRevealedCount] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(INITIAL_BATCH_DESKTOP);
+
+  const titleText = "GRAPHIC DESIGNING";
+  const titleChars = titleText.split("");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(max-width: 540px)");
+    const updateIsMobile = (event) => setIsMobile(event.matches);
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", updateIsMobile);
+
+    return () => mediaQuery.removeEventListener("change", updateIsMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsActive(entry.isIntersecting),
+      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
+    );
+
+    observer.observe(sectionRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isActive) {
+      setRevealedCount(0);
+      return;
+    } //* eslint-disable react-hooks/exhaustive-deps */
+
+    if (isMobile) {
+      let frameId = 0;
+      const duration = 650;
+      const startTime = performance.now();
+
+      const animateMobileReveal = (time) => {
+        const progress = Math.min((time - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const nextCount = Math.round(titleChars.length * eased);
+
+        setRevealedCount((current) => (current === nextCount ? current : nextCount));
+
+        if (progress < 1) {
+          frameId = window.requestAnimationFrame(animateMobileReveal);
+        }
+      };
+
+      frameId = window.requestAnimationFrame(animateMobileReveal);
+
+      return () => {
+        if (frameId) window.cancelAnimationFrame(frameId);
+      };
+    }
+
+    let frameId = 0;
+    let ticking = false;
+
+    const updateReveal = () => {
+      if (!titleRef.current) return;
+
+      const rect = titleRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const start = viewportHeight * 0.92;
+      const end = viewportHeight * 0.2;
+      const progress = ((start - rect.top) / (start - end)) * 100;
+      const nextCount = Math.round((Math.max(0, Math.min(100, progress)) / 100) * titleChars.length);
+
+      setRevealedCount((current) => (current === nextCount ? current : nextCount));
+    };
+
+    const requestRevealUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      frameId = window.requestAnimationFrame(() => {
+        ticking = false;
+        updateReveal();
+      });
+    };
+
+    updateReveal();
+    window.addEventListener("scroll", requestRevealUpdate, { passive: true });
+    window.addEventListener("resize", requestRevealUpdate);
+
+    return () => {
+      if (frameId) window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", requestRevealUpdate);
+      window.removeEventListener("resize", requestRevealUpdate);
+    };
+  }, [isMobile, isActive, titleChars.length]);
+
+  useEffect(() => {
+    const initialCount = isMobile ? INITIAL_BATCH_MOBILE : INITIAL_BATCH_DESKTOP;
+    setVisibleCount(Math.min(initialCount, cards.length));
+  }, [isMobile]);
+
+  const loadMoreCards = useCallback(() => {
+    setVisibleCount((current) => {
+      if (current >= cards.length) return current;
+      return Math.min(current + LOAD_BATCH, cards.length);
+    });
+  }, []);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const onTrackScroll = () => {
+      const nearEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 120;
+      if (nearEnd) {
+        loadMoreCards();
+      }
+    };
+
+    track.addEventListener("scroll", onTrackScroll, { passive: true });
+
+    return () => track.removeEventListener("scroll", onTrackScroll);
+  }, [loadMoreCards]);
 
   const scrollCards = (direction) => {
     if (!trackRef.current) {
@@ -221,10 +353,21 @@ function GraphicDesining() {
       left: direction * (cardWidth + gap),
       behavior: "smooth",
     });
+
+    if (direction > 0) {
+      window.setTimeout(() => {
+        const track = trackRef.current;
+        if (!track) return;
+        const nearEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 120;
+        if (nearEnd) {
+          loadMoreCards();
+        }
+      }, 360);
+    }
   };
 
   return (
-    <section className={styles.section}>
+    <section ref={sectionRef} className={styles.section}>
       <div className={styles.header}>
         <div className={styles.cornerMeta}>
           <div className={styles.eyebrowWrap}>
@@ -268,8 +411,44 @@ function GraphicDesining() {
         </div>
 
         <h2 className={styles.title}>
-          <span className={styles.titlePrimary}>Graphic Designing</span>
-          <br />
+          <span ref={titleRef} className={styles.titlePrimary}>
+            {/* Desktop - single line */}
+            <span className={styles.desktopText}>
+              {titleChars.map((char, index) => (
+                <span
+                  key={`${char}-${index}`}
+                  className={index < revealedCount ? `${styles.titleChar} ${styles.titleCharVisible}` : styles.titleChar}
+                >
+                  {char === " " ? "\u00A0" : char}
+                </span>
+              ))}
+            </span>
+            
+            {/* Mobile - two lines */}
+            <span className={styles.mobileText}>
+              <span className={styles.line1}>
+                {"GRAPHIC".split("").map((char, index) => (
+                  <span
+                    key={`g-${index}`}
+                    className={index < revealedCount ? `${styles.titleChar} ${styles.titleCharVisible}` : styles.titleChar}
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+              <span className={styles.line2}>
+                {"DESIGNING".split("").map((char, index) => (
+                  <span
+                    key={`d-${index}`}
+                    className={(index + 7) < revealedCount ? `${styles.titleChar} ${styles.titleCharVisible}` : styles.titleChar}
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+            </span>
+          </span>
+          <br className={styles.desktopBr} />
           <span className={styles.titleSecondary}>
             All the sections cover in 3 months
           </span>
@@ -303,11 +482,15 @@ function GraphicDesining() {
       </div>
 
       <div ref={trackRef} className={styles.track}>
-        {cards.map((card) => (
+        {cards.slice(0, visibleCount).map((card, index) => (
           <article
             key={card.id}
-            className={styles.card}
-            style={{ "--card-bg": card.gradient, "--card-tint": card.tint }}
+            className={`${styles.card} ${styles.cardEnter}`}
+            style={{
+              "--card-bg": card.gradient,
+              "--card-tint": card.tint,
+              "--enter-delay": `${Math.min(index * 60, 300)}ms`,
+            }}
           >
             <div className={styles.content}>
               <div className={styles.topMeta}>
@@ -326,6 +509,8 @@ function GraphicDesining() {
                 className={styles.artImage}
                 src={card.image}
                 alt={card.title}
+                loading="lazy"
+                decoding="async"
               />
               <button className={styles.readMore} type="button">
                 Read More

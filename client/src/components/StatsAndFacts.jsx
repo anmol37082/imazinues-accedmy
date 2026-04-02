@@ -1,35 +1,18 @@
+
+
+
+
 import { useEffect, useRef, useState } from "react";
 import styles from "./StatsAndFacts.module.css";
 
 const stats = [
-  {
-    value: 7,
-    suffix: "+",
-    title: "Year Experience",
-    subtext: "of Tuning the Talent",
-  },
-  {
-    value: 700,
-    suffix: "+",
-    title: "Students",
-    subtext: "trained in creativity",
-  },
-  {
-    value: 250,
-    suffix: "+",
-    title: "Placement",
-    subtext: "Success Stories",
-  },
-  {
-    value: 99,
-    suffix: "%",
-    title: "Positive",
-    subtext: "Student Feedback",
-  },
+  { value: 7, suffix: "+", title: "Year Experience", subtext: "of Tuning the Talent" },
+  { value: 700, suffix: "+", title: "Students", subtext: "trained in creativity" },
+  { value: 250, suffix: "+", title: "Placement", subtext: "Success Stories" },
+  { value: 99, suffix: "%", title: "Positive", subtext: "Student Feedback" },
 ];
 
-const introText =
-  "Hey, I'm Vishant Kumar, the mind behind Imazine Us - A creative agency focused on transforming simple concepts into creative solutions that truly stand out.";
+const introText = "Hey, I'm Vishant Kumar, the mind behind Imazine Us - A creative agency focused on transforming simple concepts into creative solutions that truly stand out.";
 const introChars = introText.split("");
 
 function CountUpValue({ value, suffix = "", start = 1, active }) {
@@ -38,7 +21,7 @@ function CountUpValue({ value, suffix = "", start = 1, active }) {
   useEffect(() => {
     if (!active) {
       setDisplayValue(start);
-      return;
+      return; ///* eslint-disable react-hooks/exhaustive-deps */
     }
 
     let frameId;
@@ -58,7 +41,9 @@ function CountUpValue({ value, suffix = "", start = 1, active }) {
 
     frameId = window.requestAnimationFrame(animate);
 
-    return () => window.cancelAnimationFrame(frameId);
+    return () => {
+      if (frameId) window.cancelAnimationFrame(frameId);
+    };
   }, [active, start, value]);
 
   return `${displayValue}${suffix}`;
@@ -69,19 +54,15 @@ function StatsAndFacts() {
   const sectionRef = useRef(null);
   const [revealedCount, setRevealedCount] = useState(0);
   const [statsActive, setStatsActive] = useState(false);
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window === "undefined") {
-      return false;
-    }
-
-    return window.matchMedia("(max-width: 540px)").matches;
-  });
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return; // ✅ Fixed
+    }
+
     const mediaQuery = window.matchMedia("(max-width: 540px)");
-    const updateIsMobile = (event) => {
-      setIsMobile(event.matches);
-    };
+    const updateIsMobile = (event) => setIsMobile(event.matches);
 
     setIsMobile(mediaQuery.matches);
     mediaQuery.addEventListener("change", updateIsMobile);
@@ -90,12 +71,12 @@ function StatsAndFacts() {
   }, []);
 
   useEffect(() => {
-    if (isMobile) {
-      if (!statsActive) {
-        setRevealedCount(0);
-        return;
-      }
+    if (!statsActive) {
+      setRevealedCount(0);
+      return; // ✅ Fixed
+    }
 
+    if (isMobile) {
       let frameId = 0;
       const duration = 650;
       const startTime = performance.now();
@@ -105,9 +86,7 @@ function StatsAndFacts() {
         const eased = 1 - Math.pow(1 - progress, 3);
         const nextCount = Math.round(introChars.length * eased);
 
-        setRevealedCount((currentCount) =>
-          currentCount === nextCount ? currentCount : nextCount
-        );
+        setRevealedCount((current) => current === nextCount ? current : nextCount);
 
         if (progress < 1) {
           frameId = window.requestAnimationFrame(animateMobileReveal);
@@ -116,41 +95,29 @@ function StatsAndFacts() {
 
       frameId = window.requestAnimationFrame(animateMobileReveal);
 
-      return () => window.cancelAnimationFrame(frameId);
-    }
-
-    if (!statsActive) {
-      setRevealedCount(0);
-      return;
+      return () => {
+        if (frameId) window.cancelAnimationFrame(frameId);
+      };
     }
 
     let frameId = 0;
     let ticking = false;
 
     const updateReveal = () => {
-      if (!introRef.current) {
-        return;
-      }
+      if (!introRef.current) return;
 
       const rect = introRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
       const start = viewportHeight * 0.92;
       const end = viewportHeight * 0.2;
       const progress = ((start - rect.top) / (start - end)) * 100;
-      const nextCount = Math.round(
-        (Math.max(0, Math.min(100, progress)) / 100) * introChars.length
-      );
+      const nextCount = Math.round((Math.max(0, Math.min(100, progress)) / 100) * introChars.length);
 
-      setRevealedCount((currentCount) =>
-        currentCount === nextCount ? currentCount : nextCount
-      );
+      setRevealedCount((current) => current === nextCount ? current : nextCount);
     };
 
     const requestRevealUpdate = () => {
-      if (ticking) {
-        return;
-      }
-
+      if (ticking) return;
       ticking = true;
       frameId = window.requestAnimationFrame(() => {
         ticking = false;
@@ -163,7 +130,7 @@ function StatsAndFacts() {
     window.addEventListener("resize", requestRevealUpdate);
 
     return () => {
-      window.cancelAnimationFrame(frameId);
+      if (frameId) window.cancelAnimationFrame(frameId);
       window.removeEventListener("scroll", requestRevealUpdate);
       window.removeEventListener("resize", requestRevealUpdate);
     };
@@ -171,17 +138,12 @@ function StatsAndFacts() {
 
   useEffect(() => {
     if (!sectionRef.current) {
-      return undefined;
+      return; // ✅ Fixed
     }
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setStatsActive(entry.isIntersecting);
-      },
-      {
-        threshold: 0.2,
-        rootMargin: "0px 0px -10% 0px",
-      }
+      ([entry]) => setStatsActive(entry.isIntersecting),
+      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
     );
 
     observer.observe(sectionRef.current);
@@ -197,18 +159,11 @@ function StatsAndFacts() {
           <span className={styles.eyebrow}>Offline Classes</span>
         </div>
 
-        <p
-          ref={introRef}
-          className={styles.intro}
-        >
+        <p ref={introRef} className={styles.intro}>
           {introChars.map((char, index) => (
             <span
               key={`${char}-${index}`}
-              className={
-                index < revealedCount
-                  ? `${styles.introChar} ${styles.introCharVisible}`
-                  : styles.introChar
-              }
+              className={index < revealedCount ? `${styles.introChar} ${styles.introCharVisible}` : styles.introChar}
             >
               {char}
             </span>
@@ -220,11 +175,7 @@ function StatsAndFacts() {
         {stats.map((item) => (
           <article className={styles.card} key={item.title}>
             <h3 className={styles.value}>
-              <CountUpValue
-                active={statsActive}
-                value={item.value}
-                suffix={item.suffix}
-              />
+              <CountUpValue active={statsActive} value={item.value} suffix={item.suffix} />
             </h3>
             <p className={styles.label}>
               <span className={styles.labelStrong}>{item.title}</span>

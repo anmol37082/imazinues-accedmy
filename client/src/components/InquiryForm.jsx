@@ -8,6 +8,7 @@ const courseOptions = [
   "Web Development",
   "Graphic Designing + Video Editing",
 ];
+const WHATSAPP_NUMBER = "918882043435";
 
 const slides = [
   {
@@ -164,6 +165,23 @@ function InquiryForm() {
       dropdownRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
+
+    const formData = new FormData(e.currentTarget);
+    const fullName = (formData.get("fullName") || "").toString().trim();
+    const phone = (formData.get("phone") || "").toString().trim();
+    const email = (formData.get("email") || "").toString().trim();
+
+    const message = [
+      "New Inquiry - Imazineus Academy",
+      `Name: ${fullName}`,
+      `Phone: ${phone}`,
+      `Email: ${email}`,
+      `Course: ${selectedCourse}`,
+    ].join("\n");
+
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+
     setIsSubmitted(true);
     setTimeout(() => {
       setShowThankYou(true);
@@ -229,15 +247,15 @@ function InquiryForm() {
 
           <form ref={formRef} className={styles.form} onSubmit={handleSubmit}>
             <label className={styles.field}>
-              <input className={styles.input} type="text" placeholder="Full Name" required />
+              <input className={styles.input} type="text" name="fullName" placeholder="Full Name" required />
             </label>
 
             <label className={styles.field}>
-              <input className={styles.input} type="tel" placeholder="Phone Number" required />
+              <input className={styles.input} type="tel" name="phone" placeholder="Phone Number" required />
             </label>
 
             <label className={styles.field}>
-              <input className={styles.input} type="email" placeholder="Email Address" required />
+              <input className={styles.input} type="email" name="email" placeholder="Email Address" required />
             </label>
 
             <div className={styles.dropdownContainer} ref={dropdownRef}>
