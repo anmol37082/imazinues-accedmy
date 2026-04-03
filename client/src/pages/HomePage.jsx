@@ -11,6 +11,7 @@ import StatsAndFacts from "../components/StatsAndFacts";
 // import Webvideobnnaer from "../components/Webvideobnnaer";
 import Footer from "../components/Footer";
 
+
 function HomePage() {
   const siteUrl = "https://imazineus.com";
   const pageUrl = "https://imazineus.com/";
@@ -114,6 +115,8 @@ function HomePage() {
       <Reviews />
        <InquiryForm />
       <Footer />
+      
+
     </>
   );
 }

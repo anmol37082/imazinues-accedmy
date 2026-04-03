@@ -51,13 +51,25 @@
   white-space: pre-wrap;
 }
 
+.introWord {
+  white-space: nowrap;
+}
+
 .introChar {
+  display: inline-block;
   color: rgba(255, 255, 255, 0.34);
-  transition: color 0.2s ease;
+  opacity: 0.28;
+  transform: translateY(0.08em);
+  transition:
+    color 0.28s ease,
+    opacity 0.28s ease,
+    transform 0.28s ease;
 }
 
 .introCharVisible {
   color: #ffffff;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .grid {

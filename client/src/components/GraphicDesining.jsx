@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from "react";
+import SplitType from "split-type";
 import styles from "./GraphicDesining.module.css";
 
 const softwareIcons = [
@@ -212,14 +213,14 @@ const LOAD_BATCH = 3;
 function GraphicDesining() {
   const trackRef = useRef(null);
   const titleRef = useRef(null);
+  const titleCharsRef = useRef([]);
+  const splitInstanceRef = useRef(null);
   const sectionRef = useRef(null);
-  const [revealedCount, setRevealedCount] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [visibleCount, setVisibleCount] = useState(INITIAL_BATCH_DESKTOP);
 
   const titleText = "GRAPHIC DESIGNING";
-  const titleChars = titleText.split("");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -247,9 +248,40 @@ function GraphicDesining() {
   }, []);
 
   useEffect(() => {
+    if (!titleRef.current || typeof window === "undefined") {
+      return undefined;
+    }
+
+    splitInstanceRef.current?.revert();
+
+    const splitInstance = new SplitType(titleRef.current, {
+      types: "words, chars",
+      wordClass: styles.titleWord,
+      charClass: styles.titleChar,
+    });
+
+    splitInstanceRef.current = splitInstance;
+    titleCharsRef.current = splitInstance.chars ?? [];
+
+    return () => {
+      titleCharsRef.current = [];
+      splitInstanceRef.current?.revert();
+      splitInstanceRef.current = null;
+    };
+  }, [isMobile]);
+
+  useEffect(() => {
+    const titleChars = titleCharsRef.current;
+
+    const updateRevealCount = (count) => {
+      titleChars.forEach((char, index) => {
+        char.classList.toggle(styles.titleCharVisible, index < count);
+      });
+    };
+
     if (!isActive) {
-      setRevealedCount(0);
-      return;
+      updateRevealCount(0);
+      return undefined;
     } //* eslint-disable react-hooks/exhaustive-deps */
 
     if (isMobile) {
@@ -262,7 +294,7 @@ function GraphicDesining() {
         const eased = 1 - Math.pow(1 - progress, 3);
         const nextCount = Math.round(titleChars.length * eased);
 
-        setRevealedCount((current) => (current === nextCount ? current : nextCount));
+        updateRevealCount(nextCount);
 
         if (progress < 1) {
           frameId = window.requestAnimationFrame(animateMobileReveal);
@@ -289,7 +321,7 @@ function GraphicDesining() {
       const progress = ((start - rect.top) / (start - end)) * 100;
       const nextCount = Math.round((Math.max(0, Math.min(100, progress)) / 100) * titleChars.length);
 
-      setRevealedCount((current) => (current === nextCount ? current : nextCount));
+      updateRevealCount(nextCount);
     };
 
     const requestRevealUpdate = () => {
@@ -310,7 +342,7 @@ function GraphicDesining() {
       window.removeEventListener("scroll", requestRevealUpdate);
       window.removeEventListener("resize", requestRevealUpdate);
     };
-  }, [isMobile, isActive, titleChars.length]);
+  }, [isMobile, isActive]);
 
   useEffect(() => {
     const initialCount = isMobile ? INITIAL_BATCH_MOBILE : INITIAL_BATCH_DESKTOP;
@@ -412,41 +444,14 @@ function GraphicDesining() {
 
         <h2 className={styles.title}>
           <span ref={titleRef} className={styles.titlePrimary}>
-            {/* Desktop - single line */}
-            <span className={styles.desktopText}>
-              {titleChars.map((char, index) => (
-                <span
-                  key={`${char}-${index}`}
-                  className={index < revealedCount ? `${styles.titleChar} ${styles.titleCharVisible}` : styles.titleChar}
-                >
-                  {char === " " ? "\u00A0" : char}
-                </span>
-              ))}
-            </span>
-            
-            {/* Mobile - two lines */}
-            <span className={styles.mobileText}>
-              <span className={styles.line1}>
-                {"GRAPHIC".split("").map((char, index) => (
-                  <span
-                    key={`g-${index}`}
-                    className={index < revealedCount ? `${styles.titleChar} ${styles.titleCharVisible}` : styles.titleChar}
-                  >
-                    {char}
-                  </span>
-                ))}
-              </span>
-              <span className={styles.line2}>
-                {"DESIGNING".split("").map((char, index) => (
-                  <span
-                    key={`d-${index}`}
-                    className={(index + 7) < revealedCount ? `${styles.titleChar} ${styles.titleCharVisible}` : styles.titleChar}
-                  >
-                    {char}
-                  </span>
-                ))}
-              </span>
-            </span>
+            {isMobile ? (
+              <>
+                <span className={styles.titleLine}>GRAPHIC</span>
+                <span className={styles.titleLine}>DESIGNING</span>
+              </>
+            ) : (
+              titleText
+            )}
           </span>
           <br className={styles.desktopBr} />
           <span className={styles.titleSecondary}>

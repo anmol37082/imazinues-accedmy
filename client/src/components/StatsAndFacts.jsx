@@ -1,8 +1,5 @@
-
-
-
-
 import { useEffect, useRef, useState } from "react";
+import SplitType from "split-type";
 import styles from "./StatsAndFacts.module.css";
 
 const stats = [
@@ -12,8 +9,8 @@ const stats = [
   { value: 99, suffix: "%", title: "Positive", subtext: "Student Feedback" },
 ];
 
-const introText = "Hey, I'm Vishant Kumar, the mind behind Imazine Us - A creative agency focused on transforming simple concepts into creative solutions that truly stand out.";
-const introChars = introText.split("");
+const introText =
+  "Hey, I'm Vishant Kumar, the mind behind Imazine Us - A creative agency focused on transforming simple concepts into creative solutions that truly stand out.";
 
 function CountUpValue({ value, suffix = "", start = 1, active }) {
   const [displayValue, setDisplayValue] = useState(start);
@@ -21,7 +18,7 @@ function CountUpValue({ value, suffix = "", start = 1, active }) {
   useEffect(() => {
     if (!active) {
       setDisplayValue(start);
-      return; ///* eslint-disable react-hooks/exhaustive-deps */
+      return;
     }
 
     let frameId;
@@ -42,7 +39,9 @@ function CountUpValue({ value, suffix = "", start = 1, active }) {
     frameId = window.requestAnimationFrame(animate);
 
     return () => {
-      if (frameId) window.cancelAnimationFrame(frameId);
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
     };
   }, [active, start, value]);
 
@@ -51,14 +50,15 @@ function CountUpValue({ value, suffix = "", start = 1, active }) {
 
 function StatsAndFacts() {
   const introRef = useRef(null);
+  const introCharsRef = useRef([]);
+  const splitInstanceRef = useRef(null);
   const sectionRef = useRef(null);
-  const [revealedCount, setRevealedCount] = useState(0);
   const [statsActive, setStatsActive] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") {
-      return; // ✅ Fixed
+      return;
     }
 
     const mediaQuery = window.matchMedia("(max-width: 540px)");
@@ -71,9 +71,38 @@ function StatsAndFacts() {
   }, []);
 
   useEffect(() => {
+    if (!introRef.current || typeof window === "undefined") {
+      return undefined;
+    }
+
+    const splitInstance = new SplitType(introRef.current, {
+      types: "words, chars",
+      wordClass: styles.introWord,
+      charClass: styles.introChar,
+    });
+
+    splitInstanceRef.current = splitInstance;
+    introCharsRef.current = splitInstance.chars ?? [];
+
+    return () => {
+      introCharsRef.current = [];
+      splitInstanceRef.current?.revert();
+      splitInstanceRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    const introChars = introCharsRef.current;
+
+    const updateRevealCount = (count) => {
+      introChars.forEach((char, index) => {
+        char.classList.toggle(styles.introCharVisible, index < count);
+      });
+    };
+
     if (!statsActive) {
-      setRevealedCount(0);
-      return; // ✅ Fixed
+      updateRevealCount(0);
+      return undefined;
     }
 
     if (isMobile) {
@@ -86,7 +115,7 @@ function StatsAndFacts() {
         const eased = 1 - Math.pow(1 - progress, 3);
         const nextCount = Math.round(introChars.length * eased);
 
-        setRevealedCount((current) => current === nextCount ? current : nextCount);
+        updateRevealCount(nextCount);
 
         if (progress < 1) {
           frameId = window.requestAnimationFrame(animateMobileReveal);
@@ -96,7 +125,9 @@ function StatsAndFacts() {
       frameId = window.requestAnimationFrame(animateMobileReveal);
 
       return () => {
-        if (frameId) window.cancelAnimationFrame(frameId);
+        if (frameId) {
+          window.cancelAnimationFrame(frameId);
+        }
       };
     }
 
@@ -104,20 +135,27 @@ function StatsAndFacts() {
     let ticking = false;
 
     const updateReveal = () => {
-      if (!introRef.current) return;
+      if (!introRef.current) {
+        return;
+      }
 
       const rect = introRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
       const start = viewportHeight * 0.92;
       const end = viewportHeight * 0.2;
       const progress = ((start - rect.top) / (start - end)) * 100;
-      const nextCount = Math.round((Math.max(0, Math.min(100, progress)) / 100) * introChars.length);
+      const nextCount = Math.round(
+        (Math.max(0, Math.min(100, progress)) / 100) * introChars.length
+      );
 
-      setRevealedCount((current) => current === nextCount ? current : nextCount);
+      updateRevealCount(nextCount);
     };
 
     const requestRevealUpdate = () => {
-      if (ticking) return;
+      if (ticking) {
+        return;
+      }
+
       ticking = true;
       frameId = window.requestAnimationFrame(() => {
         ticking = false;
@@ -130,7 +168,9 @@ function StatsAndFacts() {
     window.addEventListener("resize", requestRevealUpdate);
 
     return () => {
-      if (frameId) window.cancelAnimationFrame(frameId);
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
       window.removeEventListener("scroll", requestRevealUpdate);
       window.removeEventListener("resize", requestRevealUpdate);
     };
@@ -138,7 +178,7 @@ function StatsAndFacts() {
 
   useEffect(() => {
     if (!sectionRef.current) {
-      return; // ✅ Fixed
+      return;
     }
 
     const observer = new IntersectionObserver(
@@ -160,14 +200,7 @@ function StatsAndFacts() {
         </div>
 
         <p ref={introRef} className={styles.intro}>
-          {introChars.map((char, index) => (
-            <span
-              key={`${char}-${index}`}
-              className={index < revealedCount ? `${styles.introChar} ${styles.introCharVisible}` : styles.introChar}
-            >
-              {char}
-            </span>
-          ))}
+          {introText}
         </p>
       </div>
 
