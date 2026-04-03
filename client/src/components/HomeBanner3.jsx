@@ -14,6 +14,9 @@ function HomeBanner3() {
           alt="Imazine Us Academy home banner"
         />
       </picture>
+      <a href="#inquiry" className={styles.enrollButton}>
+        Enroll Now
+      </a>
     </section>
   );
 }

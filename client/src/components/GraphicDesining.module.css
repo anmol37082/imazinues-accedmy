@@ -28,7 +28,13 @@
   }
 
   .videoFrame {
-    height: min(100dvh, 62vw);
-    min-height: 240px;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 9 / 16;
+    max-height: 100dvh;
+  }
+
+  .video {
+    object-fit: contain;
   }
 }

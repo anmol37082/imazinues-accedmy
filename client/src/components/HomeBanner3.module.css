@@ -1,5 +1,6 @@
 .bannerSection {
   --header-offset: 96px;
+  position: relative;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -19,6 +20,29 @@
   object-position: center top;
 }
 
+.enrollButton {
+  position: absolute;
+  left: 50%;
+  bottom: 68px;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 142px;
+  padding: 10px 20px;
+  border-radius: 14px;
+  background: #00ef02;
+  color: #0b0b0b;
+  font-family: "Avenir Next", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  text-transform: uppercase;
+}
+
 @media (max-width: 540px) {
   .bannerSection {
     --header-offset: 88px;
@@ -30,5 +54,14 @@
     width: 100%;
     height: auto;
     object-position: center top;
+  }
+
+  .enrollButton {
+    bottom: 48px;
+    min-width: 126px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 22px;
   }
 }
