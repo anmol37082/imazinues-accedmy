@@ -17,6 +17,9 @@ function GraphicDesining() {
           />
           Your browser does not support the video tag.
         </video>
+        <a href="#inquiry" className={styles.enrollButton}>
+          Enroll Now
+        </a>
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 .bannerSection {
   --header-offset: 96px;
   width: 100%;
-  margin: 0;
+  margin: -28px 0 0;
   padding: 0;
   background: #000000;
   overflow: hidden;
@@ -22,6 +22,7 @@
 @media (max-width: 540px) {
   .bannerSection {
     --header-offset: 88px;
+    margin-top: -18px;
     padding-bottom: 44px;
   }
 

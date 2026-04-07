@@ -213,7 +213,10 @@ function InquiryForm() {
           
           {/* ✅ PURANA CHECKMARK DIV HATAYA, NAYA SVG COMPONENT LAGAYA */}
           <div className={styles.checkmarkContainer}>
-            <CheckmarkSVG />
+            <span className={styles.checkmarkCircle}>
+              <span className={styles.checkmarkStem} />
+              <span className={styles.checkmarkKick} />
+            </span>
           </div>
           
           <h3 className={styles.thankYouTitle}>Thank You!</h3>

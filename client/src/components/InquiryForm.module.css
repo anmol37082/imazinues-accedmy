@@ -266,8 +266,8 @@
   left: 50%;
   transform: translate(-50%, -50%) scale(0.8);
   background: white;
-  padding: 50px 60px;
-  border-radius: 24px;
+  padding: 42px 36px 34px;
+  border-radius: 22px;
   text-align: center;
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
   z-index: 10000;
@@ -282,7 +282,7 @@
 
 /* ✅ NAYA: Checkmark Container for SVG */
 .checkmarkContainer {
-  margin: 0 auto 20px;
+  margin: 2px auto 18px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -290,31 +290,60 @@
 }
 
 /* ✅ NAYA: Checkmark SVG Styles */
-.checkmarkSvg {
-  width: 80px;
-  height: 80px;
-  filter: drop-shadow(0 10px 30px rgba(107, 190, 102, 0.4));
+.checkmarkCircle {
+  position: relative;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #14ef3a 0%, #09d92f 100%);
+  box-shadow: 0 8px 24px rgba(20, 239, 58, 0.28);
+}
+
+.checkmarkStem,
+.checkmarkKick {
+  position: absolute;
+  background: #fff;
+  border-radius: 999px;
+}
+
+.checkmarkStem {
+  width: 7px;
+  height: 18px;
+  left: 28px;
+  top: 34px;
+  transform: rotate(-42deg);
+  transform-origin: center;
+}
+
+.checkmarkKick {
+  width: 7px;
+  height: 32px;
+  left: 43px;
+  top: 22px;
+  transform: rotate(45deg);
+  transform-origin: center;
 }
 
 .thankYouTitle {
   color: #111827;
   font-family: "Sora", sans-serif;
-  font-size: 32px;
+  font-size: 31px;
   font-weight: 700;
-  margin: 0 0 12px 0;
+  margin: 0 0 14px 0;
   animation: fadeInUp 0.5s ease 0.3s both;
 }
 
 .thankYouText {
-  color: #6b7280;
+  color: #7d8493;
   font-family: "Sora", sans-serif;
-  font-size: 16px;
-  margin: 0 0 8px 0;
+  font-size: 15px;
+  line-height: 1.45;
+  margin: 0 0 10px 0;
   animation: fadeInUp 0.5s ease 0.4s both;
 }
 
 .thankYouSubtext {
-  color: #00c853;
+  color: #1dd34f;
   font-family: "Sora", sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -325,15 +354,15 @@
 /* ========== CLOSE BUTTON ========== */
 .closeButton {
   position: absolute;
-  top: 15px;
-  right: 20px;
+  top: 12px;
+  right: 14px;
   width: 32px;
   height: 32px;
   border: none;
   background: transparent;
-  color: #9ca3af;
-  font-size: 28px;
-  font-weight: 300;
+  color: transparent;
+  font-size: 0;
+  font-weight: 400;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -344,14 +373,20 @@
   padding: 0;
 }
 
+.closeButton::before {
+  content: "×";
+  color: #bcc3cf;
+  font-size: 26px;
+  line-height: 1;
+}
+
 .closeButton:hover {
   background: #f3f4f6;
-  color: #111827;
-  transform: rotate(90deg);
-    display: flex;
-  align-items: center;
-  justify-content: center;
+  transform: none;
+}
 
+.closeButton:hover::before {
+  color: #8f97a5;
 }
 
 /* ========== FORM HIDDEN ========== */
@@ -483,9 +518,23 @@
   .thankYouSubtext { font-size: 13px; }
 
   /* ✅ Updated checkmark sizes for mobile */
-  .checkmarkSvg {
+  .checkmarkCircle {
     width: 60px;
     height: 60px;
+  }
+
+  .checkmarkStem {
+    width: 6px;
+    height: 16px;
+    left: 21px;
+    top: 26px;
+  }
+
+  .checkmarkKick {
+    width: 6px;
+    height: 28px;
+    left: 33px;
+    top: 17px;
   }
 
   .checkmarkContainer {
@@ -532,8 +581,20 @@
   .thankYouTitle { font-size: 22px; }
   
   /* ✅ Smaller checkmark for very small screens */
-  .checkmarkSvg {
+  .checkmarkCircle {
     width: 50px;
     height: 50px;
+  }
+
+  .checkmarkStem {
+    left: 17px;
+    top: 21px;
+    height: 14px;
+  }
+
+  .checkmarkKick {
+    left: 28px;
+    top: 14px;
+    height: 24px;
   }
 }

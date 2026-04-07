@@ -8,8 +8,8 @@ import Header from "../components/Header";
 import InquiryForm from "../components/InquiryForm";
 import Reviews from "../components/Reviews";
 import StatsAndFacts from "../components/StatsAndFacts";
-// import Webvideobnnaer from "../components/Webvideobnnaer";
 import Footer from "../components/Footer";
+
 
 
 function HomePage() {
@@ -75,11 +75,11 @@ function HomePage() {
   return (
     <>
       <Helmet>
-        {/* Basic SEO */}
+       
         <title>{title}</title>
         <meta name="description" content={description} />
 
-        {/* Open Graph (Facebook / WhatsApp) */}
+       
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -103,16 +103,15 @@ function HomePage() {
         </script>
       </Helmet>
 
-      {/* UI Components */}
+    
       <Header />
       <HomeBanner />
       <StatsAndFacts />
       <HomeBanner2 />
-      <GraphicDesining />
-     < HomeBanner3 />
-     {/* <Webvideobnnaer /> */}
-      <VideoEditing />
-      <Reviews />
+       <GraphicDesining />
+       < HomeBanner3 />
+       <VideoEditing />
+       <Reviews />
        <InquiryForm />
       <Footer />
       
