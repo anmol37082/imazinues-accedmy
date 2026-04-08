@@ -1,0 +1,241 @@
+.newAnimation {
+  --new-animation-side-gap: clamp(10px, 1vw, 16px);
+  --new-animation-image-gap: clamp(2px, 0.35vw, 6px);
+  position: relative;
+  display: block;
+  width: 100vw;
+  max-width: none;
+  height: 180svh;
+  min-height: 1100px;
+  font: initial;
+  letter-spacing: normal;
+  color: initial;
+  background: black;
+  margin: 0 calc(50% - 50vw);
+  overflow: clip;
+  isolation: isolate;
+}
+
+.newAnimationStage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.newAnimationBg {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.newAnimationImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  z-index: 0;
+}
+
+.newOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(10, 22, 40, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%);
+  z-index: 1;
+}
+
+/* Animation images - positioned absolutely at bottom */
+.newAnimImage {
+  position: absolute;
+  width: calc((100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 6)) / 7);
+  height: 32vh;
+  object-fit: cover;
+  object-position: center top;
+  will-change: transform;
+  transition: transform 180ms ease-out;
+  z-index: 3;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  bottom: 4px;
+}
+
+.newAnimImage1 {
+  left: var(--new-animation-side-gap);
+  height: 28vh;
+  bottom: -12px;
+}
+.newAnimImage2 { left: calc(var(--new-animation-side-gap) + (1 * (100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 6)) / 7) + (1 * var(--new-animation-image-gap))); }
+.newAnimImage3 { left: calc(var(--new-animation-side-gap) + (2 * (100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 6)) / 7) + (2 * var(--new-animation-image-gap))); }
+.newAnimImage4 { left: calc(var(--new-animation-side-gap) + (3 * (100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 6)) / 7) + (3 * var(--new-animation-image-gap))); }
+.newAnimImage5 { left: calc(var(--new-animation-side-gap) + (4 * (100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 6)) / 7) + (4 * var(--new-animation-image-gap))); }
+.newAnimImage6 { left: calc(var(--new-animation-side-gap) + (5 * (100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 6)) / 7) + (5 * var(--new-animation-image-gap))); }
+.newAnimImage7 {
+  left: calc(var(--new-animation-side-gap) + (6 * (100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 6)) / 7) + (6 * var(--new-animation-image-gap)));
+  height: 28vh;
+  bottom: -12px;
+}
+
+.textImage {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 94%;
+  max-height: 54vh;
+  width: auto;
+  height: auto;
+  z-index: 4;
+  border-radius: 8px;
+  object-fit: contain;
+  will-change: transform;
+  transition: transform 180ms linear;
+  opacity: 0;
+  filter: blur(10px);
+  animation: textImageReveal 1400ms linear 80ms forwards;
+}
+
+@keyframes textImageReveal {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .newAnimation {
+    height: 190svh;
+    min-height: 980px;
+  }
+
+  .newAnimImage {
+    width: calc((100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 3)) / 4);
+    height: clamp(130px, 21vh, 210px);
+    bottom: auto;
+  }
+
+  .newAnimImage7 {
+    height: clamp(118px, 18vh, 180px);
+  }
+
+  .newAnimImage1 {
+    left: var(--new-animation-side-gap);
+    top: auto;
+    bottom: clamp(156px, 24vh, 220px);
+  }
+
+  .newAnimImage2 {
+    left: calc(var(--new-animation-side-gap) + (1 * (100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 3)) / 4) + (1 * var(--new-animation-image-gap)));
+    top: auto;
+    bottom: clamp(156px, 24vh, 220px);
+  }
+
+  .newAnimImage3 {
+    left: calc(var(--new-animation-side-gap) + (2 * (100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 3)) / 4) + (2 * var(--new-animation-image-gap)));
+    top: auto;
+    bottom: clamp(156px, 24vh, 220px);
+  }
+
+  .newAnimImage4 {
+    left: calc(var(--new-animation-side-gap) + (3 * (100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 3)) / 4) + (3 * var(--new-animation-image-gap)));
+    top: auto;
+    bottom: clamp(156px, 24vh, 220px);
+  }
+
+  .newAnimImage5 {
+    left: calc(var(--new-animation-side-gap) + (0.5 * (100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 3)) / 4) + (0.5 * var(--new-animation-image-gap)));
+    top: auto;
+    bottom: 8px;
+  }
+
+  .newAnimImage6 {
+    left: calc(var(--new-animation-side-gap) + (1.5 * (100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 3)) / 4) + (1.5 * var(--new-animation-image-gap)));
+    top: auto;
+    bottom: 8px;
+  }
+
+  .newAnimImage7 {
+    left: calc(var(--new-animation-side-gap) + (2.5 * (100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 3)) / 4) + (2.5 * var(--new-animation-image-gap)));
+    top: auto;
+    bottom: 8px;
+  }
+
+  .textImage {
+    top: 12%;
+    max-width: min(92%, 620px);
+    max-height: 40vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .newAnimation {
+    height: 210svh;
+    min-height: 1020px;
+  }
+
+  .newAnimationStage {
+    height: 100dvh;
+  }
+
+  .newAnimImage {
+    width: calc((100% - (var(--new-animation-side-gap) * 2) - var(--new-animation-image-gap)) / 2);
+    height: clamp(116px, 18vh, 170px);
+  }
+
+  .newAnimImage1 {
+    height: clamp(116px, 18vh, 170px);
+  }
+
+  .newAnimImage1,
+  .newAnimImage2 {
+    bottom: clamp(270px, 36vh, 320px);
+  }
+
+  .newAnimImage3,
+  .newAnimImage4 {
+    bottom: clamp(140px, 19vh, 190px);
+  }
+
+  .newAnimImage5,
+  .newAnimImage6,
+  .newAnimImage7 {
+    bottom: 8px;
+  }
+
+  .newAnimImage1,
+  .newAnimImage3,
+  .newAnimImage5,
+  .newAnimImage7 {
+    left: var(--new-animation-side-gap);
+  }
+
+  .newAnimImage2,
+  .newAnimImage4,
+  .newAnimImage6 {
+    left: calc(var(--new-animation-side-gap) + ((100% - (var(--new-animation-side-gap) * 2) - var(--new-animation-image-gap)) / 2) + var(--new-animation-image-gap));
+  }
+
+  .newAnimImage7 {
+    width: calc(100% - (var(--new-animation-side-gap) * 2));
+    height: clamp(104px, 16vh, 150px);
+  }
+
+  .textImage {
+    top: 10%;
+    max-width: 90%;
+    max-height: 28vh;
+  }
+}
+

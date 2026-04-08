@@ -31,15 +31,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 142px;
+  min-width: 140px;
   padding: 10px 20px;
   border-radius: 14px;
   background: #00ef02;
   color: #0b0b0b;
   font-family: "Avenir Next", sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  line-height: 24px;
+  line-height: 22px;
   letter-spacing: 1px;
   text-decoration: none;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);

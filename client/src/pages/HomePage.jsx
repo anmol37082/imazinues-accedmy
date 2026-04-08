@@ -9,7 +9,7 @@ import InquiryForm from "../components/InquiryForm";
 import Reviews from "../components/Reviews";
 import StatsAndFacts from "../components/StatsAndFacts";
 import Footer from "../components/Footer";
-
+import NewAnimation from "../components/NewAnimation";
 
 
 function HomePage() {
@@ -105,7 +105,7 @@ function HomePage() {
 
     
       <Header />
-      <HomeBanner />
+       <NewAnimation />
       <StatsAndFacts />
       <HomeBanner2 />
        <GraphicDesining />
@@ -114,8 +114,7 @@ function HomePage() {
        <Reviews />
        <InquiryForm />
       <Footer />
-      
-
+     
     </>
   );
 }
