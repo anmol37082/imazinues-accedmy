@@ -124,6 +124,7 @@
     width: calc((100% - (var(--new-animation-side-gap) * 2) - (var(--new-animation-image-gap) * 3)) / 4);
     height: clamp(130px, 21vh, 210px);
     bottom: auto;
+    transition: none;
   }
 
   .newAnimImage7 {
@@ -176,6 +177,7 @@
     top: 12%;
     max-width: min(92%, 620px);
     max-height: 40vh;
+    transition: none;
   }
 }
 
