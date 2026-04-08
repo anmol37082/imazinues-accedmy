@@ -200,18 +200,24 @@
 
   .newAnimImage1,
   .newAnimImage2 {
-    bottom: clamp(270px, 36vh, 320px);
+    bottom: clamp(300px, 40vh, 350px);
   }
 
   .newAnimImage3,
   .newAnimImage4 {
-    bottom: clamp(140px, 19vh, 190px);
+    bottom: clamp(170px, 23vh, 220px);
   }
 
   .newAnimImage5,
   .newAnimImage6,
   .newAnimImage7 {
     bottom: 8px;
+  }
+
+  .newAnimImage5 {
+    bottom: 4px;
+    height: clamp(116px, 18vh, 170px);
+    object-position: center bottom;
   }
 
   .newAnimImage1,
@@ -230,6 +236,7 @@
   .newAnimImage7 {
     width: calc(100% - (var(--new-animation-side-gap) * 2));
     height: clamp(104px, 16vh, 150px);
+    display: none;
   }
 
   .textImage {

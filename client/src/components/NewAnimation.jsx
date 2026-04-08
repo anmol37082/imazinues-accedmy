@@ -15,6 +15,7 @@ const imageRevealOrder = [0, 3, 1, 5, 2, 4, 6];
 const imageStartOffsets = [0.06, 0.14, 0.22, 0.3, 0.38, 0.46, 0.54];
 const imageTravelDistances = [135, 120, 145, 130, 140, 125, 150];
 const imageFinalOffsets = [34, 32, 30, 32, 30, 32, 34];
+const mobileFinalOffsets = [4, 2, 0, 2, -20, -18, 34];
 const mobileTravelBoost = [50, 48, 54, 50, 54, 48, 58];
 const mobileProgressOffset = 0.14;
 
@@ -60,10 +61,13 @@ function NewAnimation() {
       const currentTravelDistance = isTextImage
         ? (isMobileViewport ? 190 : 140)
         : imageTravelDistances[index] + (isMobileViewport ? mobileTravelBoost[index] : 0) + (isMobileViewport && index === 0 ? 28 : 0);
+      const currentFinalOffset = isTextImage
+        ? 0
+        : (isMobileViewport ? mobileFinalOffsets[index] : imageFinalOffsets[index]);
 
       return isTextImage
         ? currentTravelDistance * (1 - easedProgress)
-        : imageFinalOffsets[index] + ((currentTravelDistance - imageFinalOffsets[index]) * (1 - easedProgress));
+        : currentFinalOffset + ((currentTravelDistance - currentFinalOffset) * (1 - easedProgress));
     });
 
     setImageTranslates(newTranslates);
