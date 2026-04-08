@@ -21,45 +21,19 @@ const mobileProgressOffset = 0.14;
 
 function NewAnimation() {
   const newAnimationRef = useRef(null);
-  const animationFrameRef = useRef(null);
-  const targetProgressRef = useRef(0);
-  const renderedProgressRef = useRef(0);
+  const lastMobileProgressRef = useRef(mobileProgressOffset);
   const [imageTranslates, setImageTranslates] = useState(Array(8).fill(100));
+  const isSafariRef = useRef(false);
+  const scrollTimeoutRef = useRef(null);
 
-  const buildTranslates = useCallback((scrollProgress, isMobileViewport) => {
-    return Array.from({ length: 8 }, (_, index) => {
-      const isTextImage = index === 7;
-      const revealIndex = isTextImage ? 0 : imageRevealOrder.indexOf(index);
-      let startOffset = isTextImage ? 0.1 : imageStartOffsets[revealIndex];
-      let animationRange = isTextImage ? 0.72 : 0.58;
-
-      if (isMobileViewport && index === 0) {
-        startOffset = 0.16;
-        animationRange = 0.7;
-      }
-
-      let progress = (scrollProgress - startOffset) / animationRange;
-      progress = Math.max(0, Math.min(1, progress));
-
-      const easedProgress = isTextImage
-        ? (1 - Math.pow(1 - progress, 2.4))
-        : (1 - Math.pow(1 - progress, 2.8));
-
-      const currentTravelDistance = isTextImage
-        ? (isMobileViewport ? 190 : 140)
-        : imageTravelDistances[index] + (isMobileViewport ? mobileTravelBoost[index] : 0) + (isMobileViewport && index === 0 ? 28 : 0);
-      const currentFinalOffset = isTextImage
-        ? 0
-        : (isMobileViewport ? mobileFinalOffsets[index] : imageFinalOffsets[index]);
-
-      return isTextImage
-        ? currentTravelDistance * (1 - easedProgress)
-        : currentFinalOffset + ((currentTravelDistance - currentFinalOffset) * (1 - easedProgress));
-    });
+  useEffect(() => {
+    const ua = navigator.userAgent.toLowerCase();
+    isSafariRef.current = /^((?!chrome|android).)*safari/i.test(ua) && !ua.includes('chrome');
   }, []);
 
   const updateAnimation = useCallback(() => {
     const isMobileViewport = window.innerWidth <= 768;
+    const isSafari = isSafariRef.current;
     const newAnimationRect = newAnimationRef.current?.getBoundingClientRect();
     if (!newAnimationRect) return;
 
@@ -74,47 +48,81 @@ function NewAnimation() {
       ? mobileSectionProgress + mobileProgressOffset
       : desktopSectionProgress;
     const normalizedProgress = Math.max(0, Math.min(1, rawProgress));
-    targetProgressRef.current = normalizedProgress;
+    
+    const scrollProgress = isMobileViewport
+      ? Math.max(normalizedProgress, lastMobileProgressRef.current - (isSafari ? 0.12 : 0.08))
+      : normalizedProgress;
 
-    if (!isMobileViewport) {
-      renderedProgressRef.current = normalizedProgress;
-      setImageTranslates(buildTranslates(normalizedProgress, false));
+    if (isMobileViewport) {
+      lastMobileProgressRef.current = scrollProgress;
+    } else {
+      lastMobileProgressRef.current = mobileProgressOffset;
     }
-  }, [buildTranslates]);
+    
+    const newTranslates = Array.from({ length: 8 }, (_, index) => {
+      const isTextImage = index === 7;
+      const revealIndex = isTextImage ? 0 : imageRevealOrder.indexOf(index);
+      let startOffset = isTextImage ? 0.1 : imageStartOffsets[revealIndex];
+      let animationRange = isTextImage ? 0.72 : 0.58;
 
-  useEffect(() => {
-    const animate = () => {
-      const isMobileViewport = window.innerWidth <= 768;
-
-      if (isMobileViewport) {
-        const diff = targetProgressRef.current - renderedProgressRef.current;
-        if (Math.abs(diff) > 0.001) {
-          renderedProgressRef.current += diff * 0.12;
-        } else {
-          renderedProgressRef.current = targetProgressRef.current;
-        }
-
-        setImageTranslates(buildTranslates(renderedProgressRef.current, true));
+      if (isMobileViewport && index === 0) {
+        startOffset = 0.16;
+        animationRange = 0.7;
       }
 
-      animationFrameRef.current = requestAnimationFrame(animate);
-    };
+      let progress = (scrollProgress - startOffset) / animationRange;
+      progress = Math.max(0, Math.min(1, progress));
 
+      const easedProgress = isSafari
+        ? (isTextImage ? (1 - Math.pow(1 - progress, 2)) : (1 - Math.pow(1 - progress, 2.2)))
+        : (isTextImage ? (1 - Math.pow(1 - progress, 2.4)) : (1 - Math.pow(1 - progress, 2.8)));
+
+      const currentTravelDistance = isTextImage
+        ? (isMobileViewport ? 190 : 140)
+        : imageTravelDistances[index] + (isMobileViewport ? mobileTravelBoost[index] : 0) + (isMobileViewport && index === 0 ? 28 : 0);
+      const currentFinalOffset = isTextImage
+        ? 0
+        : (isMobileViewport ? mobileFinalOffsets[index] : imageFinalOffsets[index]);
+
+      return isTextImage
+        ? currentTravelDistance * (1 - easedProgress)
+        : currentFinalOffset + ((currentTravelDistance - currentFinalOffset) * (1 - easedProgress));
+    });
+
+    setImageTranslates(newTranslates);
+  }, []);
+
+  useEffect(() => {
+    let rafId;
+    let isUpdating = false;
+    
     const scheduleUpdate = () => {
-      updateAnimation();
+      if (isUpdating) return;
+      isUpdating = true;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        updateAnimation();
+        isUpdating = false;
+      });
     };
 
-    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    const handleScroll = () => {
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scheduleUpdate();
+      scrollTimeoutRef.current = setTimeout(() => {}, isSafariRef.current ? 150 : 100);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', scheduleUpdate);
-    scheduleUpdate();
-    animationFrameRef.current = requestAnimationFrame(animate);
+    rafId = requestAnimationFrame(updateAnimation);
 
     return () => {
-      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', scheduleUpdate);
-      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+      if (rafId) cancelAnimationFrame(rafId);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
-  }, [buildTranslates, updateAnimation]);
+  }, [updateAnimation]);
 
   return (
     <section ref={newAnimationRef} className={styles.newAnimation}>
@@ -127,23 +135,23 @@ function NewAnimation() {
             alt="Text Overlay"
             className={styles.textImage}
             style={{ 
-              transform: `translateX(-50%) translateY(${imageTranslates[7]}px)`
+              transform: `translateX(-50%) translateY(${imageTranslates[7]}px)`,
+              WebkitTransform: `translateX(-50%) translateY(${imageTranslates[7]}px) translateZ(0)`
             }}
           />
           
-          {Array.from({ length: 7 }, (_, index) => {
-            return (
-              <img
-                key={index}
-                src={imagePaths[index]}
-                alt={`New Animation ${index + 1}`}
-                className={`${styles.newAnimImage} ${styles[`newAnimImage${index + 1}`]}`}
-                style={{ 
-                  transform: `translateY(${imageTranslates[index]}%)`
-                }}
-              />
-            );
-          })}
+          {Array.from({ length: 7 }, (_, index) => (
+            <img
+              key={index}
+              src={imagePaths[index]}
+              alt={`New Animation ${index + 1}`}
+              className={`${styles.newAnimImage} ${styles[`newAnimImage${index + 1}`]}`}
+              style={{ 
+                transform: `translateY(${imageTranslates[index]}%)`,
+                WebkitTransform: `translateY(${imageTranslates[index]}%) translateZ(0)`
+              }}
+            />
+          ))}
           
           <div className={styles.newOverlay} />
         </div>
@@ -153,4 +161,3 @@ function NewAnimation() {
 }
 
 export default NewAnimation;
-
