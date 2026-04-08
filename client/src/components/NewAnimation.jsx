@@ -21,36 +21,13 @@ const mobileProgressOffset = 0.14;
 
 function NewAnimation() {
   const newAnimationRef = useRef(null);
-  const lastMobileProgressRef = useRef(mobileProgressOffset);
+  const animationFrameRef = useRef(null);
+  const targetProgressRef = useRef(0);
+  const renderedProgressRef = useRef(0);
   const [imageTranslates, setImageTranslates] = useState(Array(8).fill(100));
 
-  const updateAnimation = useCallback(() => {
-    const isMobileViewport = window.innerWidth <= 768;
-    const newAnimationRect = newAnimationRef.current?.getBoundingClientRect();
-    if (!newAnimationRect) return;
-
-    const scrollY = window.scrollY;
-    const newAnimationTop = newAnimationRect.top + scrollY;
-    const newAnimationHeight = newAnimationRect.height;
-    const viewportHeight = window.innerHeight;
-    const scrollableDistance = Math.max(newAnimationHeight - viewportHeight, 1);
-    const desktopSectionProgress = (scrollY - newAnimationTop + viewportHeight * 0.2) / scrollableDistance;
-    const mobileSectionProgress = Math.max(0, (scrollY - newAnimationTop) / scrollableDistance);
-    const rawProgress = isMobileViewport
-      ? mobileSectionProgress + mobileProgressOffset
-      : desktopSectionProgress;
-    const normalizedProgress = Math.max(0, Math.min(1, rawProgress));
-    const scrollProgress = isMobileViewport
-      ? Math.max(normalizedProgress, lastMobileProgressRef.current - 0.08)
-      : normalizedProgress;
-
-    if (isMobileViewport) {
-      lastMobileProgressRef.current = scrollProgress;
-    } else {
-      lastMobileProgressRef.current = mobileProgressOffset;
-    }
-    
-    const newTranslates = Array.from({ length: 8 }, (_, index) => {
+  const buildTranslates = useCallback((scrollProgress, isMobileViewport) => {
+    return Array.from({ length: 8 }, (_, index) => {
       const isTextImage = index === 7;
       const revealIndex = isTextImage ? 0 : imageRevealOrder.indexOf(index);
       let startOffset = isTextImage ? 0.1 : imageStartOffsets[revealIndex];
@@ -79,27 +56,65 @@ function NewAnimation() {
         ? currentTravelDistance * (1 - easedProgress)
         : currentFinalOffset + ((currentTravelDistance - currentFinalOffset) * (1 - easedProgress));
     });
-
-    setImageTranslates(newTranslates);
   }, []);
 
+  const updateAnimation = useCallback(() => {
+    const isMobileViewport = window.innerWidth <= 768;
+    const newAnimationRect = newAnimationRef.current?.getBoundingClientRect();
+    if (!newAnimationRect) return;
+
+    const scrollY = window.scrollY;
+    const newAnimationTop = newAnimationRect.top + scrollY;
+    const newAnimationHeight = newAnimationRect.height;
+    const viewportHeight = window.innerHeight;
+    const scrollableDistance = Math.max(newAnimationHeight - viewportHeight, 1);
+    const desktopSectionProgress = (scrollY - newAnimationTop + viewportHeight * 0.2) / scrollableDistance;
+    const mobileSectionProgress = Math.max(0, (scrollY - newAnimationTop) / scrollableDistance);
+    const rawProgress = isMobileViewport
+      ? mobileSectionProgress + mobileProgressOffset
+      : desktopSectionProgress;
+    const normalizedProgress = Math.max(0, Math.min(1, rawProgress));
+    targetProgressRef.current = normalizedProgress;
+
+    if (!isMobileViewport) {
+      renderedProgressRef.current = normalizedProgress;
+      setImageTranslates(buildTranslates(normalizedProgress, false));
+    }
+  }, [buildTranslates]);
+
   useEffect(() => {
-    let rafId;
+    const animate = () => {
+      const isMobileViewport = window.innerWidth <= 768;
+
+      if (isMobileViewport) {
+        const diff = targetProgressRef.current - renderedProgressRef.current;
+        if (Math.abs(diff) > 0.001) {
+          renderedProgressRef.current += diff * 0.12;
+        } else {
+          renderedProgressRef.current = targetProgressRef.current;
+        }
+
+        setImageTranslates(buildTranslates(renderedProgressRef.current, true));
+      }
+
+      animationFrameRef.current = requestAnimationFrame(animate);
+    };
+
     const scheduleUpdate = () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(updateAnimation);
+      updateAnimation();
     };
 
     window.addEventListener('scroll', scheduleUpdate, { passive: true });
     window.addEventListener('resize', scheduleUpdate);
-    rafId = requestAnimationFrame(updateAnimation);
+    scheduleUpdate();
+    animationFrameRef.current = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener('scroll', scheduleUpdate);
       window.removeEventListener('resize', scheduleUpdate);
-      if (rafId) cancelAnimationFrame(rafId);
+      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
     };
-  }, [updateAnimation]);
+  }, [buildTranslates, updateAnimation]);
 
   return (
     <section ref={newAnimationRef} className={styles.newAnimation}>
