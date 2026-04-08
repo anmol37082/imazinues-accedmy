@@ -21,6 +21,7 @@ const mobileProgressOffset = 0.14;
 
 function NewAnimation() {
   const newAnimationRef = useRef(null);
+  const lastMobileProgressRef = useRef(mobileProgressOffset);
   const [imageTranslates, setImageTranslates] = useState(Array(8).fill(100));
 
   const updateAnimation = useCallback(() => {
@@ -38,7 +39,16 @@ function NewAnimation() {
     const rawProgress = isMobileViewport
       ? mobileSectionProgress + mobileProgressOffset
       : desktopSectionProgress;
-    const scrollProgress = Math.max(0, Math.min(1, rawProgress));
+    const normalizedProgress = Math.max(0, Math.min(1, rawProgress));
+    const scrollProgress = isMobileViewport
+      ? Math.max(normalizedProgress, lastMobileProgressRef.current - 0.08)
+      : normalizedProgress;
+
+    if (isMobileViewport) {
+      lastMobileProgressRef.current = scrollProgress;
+    } else {
+      lastMobileProgressRef.current = mobileProgressOffset;
+    }
     
     const newTranslates = Array.from({ length: 8 }, (_, index) => {
       const isTextImage = index === 7;
