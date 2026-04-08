@@ -1,4 +1,4 @@
-/* NewAnimation.module.css - Safari Optimized */
+/* === ULTRA AGGRESSIVE SAFARI OPTIMIZATION === */
 
 .newAnimation {
   position: relative;
@@ -11,19 +11,24 @@
   margin: 0 calc(50% - 50vw);
   overflow: clip;
   isolation: isolate;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  contain: layout style paint;
+  content-visibility: auto;
 }
 
 .newAnimationStage {
   position: sticky;
+  position: -webkit-sticky;
   top: 0;
   height: 100svh;
   overflow: hidden;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  contain: layout style;
 }
 
 .newAnimationBg {
@@ -33,6 +38,8 @@
   width: 100%;
   height: 100%;
   z-index: 1;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .newAnimationImage {
@@ -53,63 +60,44 @@
   height: 100%;
   background: linear-gradient(135deg, rgba(10, 22, 40, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%);
   z-index: 1;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
+/* === NO CSS TRANSITIONS - PURE JS RAF === */
 .newAnimImage {
   position: absolute;
   width: calc(14.28% - 2px);
   height: 32vh;
   object-fit: cover;
   object-position: center top;
-  will-change: transform;
-  transition: transform 100ms ease-out;
+  will-change: auto;
+  transition: none !important;
   z-index: 3;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.4);
   bottom: 4px;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  contain: layout style;
 }
 
-.newAnimImage1 {
-  left: 0%;
-  height: 28vh;
-  bottom: -12px;
-}
-
-.newAnimImage2 {
-  left: calc(14.28% + 1px);
-}
-
-.newAnimImage3 {
-  left: calc(28.57% + 1.5px);
-}
-
-.newAnimImage4 {
-  left: calc(42.85% + 2px);
-}
-
-.newAnimImage5 {
-  left: calc(57.14% + 2px);
-}
-
-.newAnimImage6 {
-  left: calc(71.42% + 2.5px);
-}
-
-.newAnimImage7 {
-  left: calc(85.71% + 2px);
-  height: 28vh;
-  bottom: -12px;
-}
+.newAnimImage1 { left: 0%; height: 28vh; bottom: -12px; }
+.newAnimImage2 { left: calc(14.28% + 1px); }
+.newAnimImage3 { left: calc(28.57% + 1.5px); }
+.newAnimImage4 { left: calc(42.85% + 2px); }
+.newAnimImage5 { left: calc(57.14% + 2px); }
+.newAnimImage6 { left: calc(71.42% + 2.5px); }
+.newAnimImage7 { left: calc(85.71% + 2px); height: 28vh; bottom: -12px; }
 
 .textImage {
   position: absolute;
   top: 10%;
   left: 50%;
-  transform: translateX(-50%);
+  -webkit-transform: translate3d(-50%, 0, 0);
+  transform: translate3d(-50%, 0, 0);
   max-width: 80%;
   max-height: 40vh;
   width: auto;
@@ -117,42 +105,30 @@
   z-index: 4;
   border-radius: 8px;
   object-fit: contain;
-  will-change: transform;
-  transition: transform 80ms linear;
-  -webkit-transform: translateX(-50%) translateZ(0);
-  transform: translateX(-50%) translateZ(0);
+  will-change: auto;
+  transition: none !important;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  contain: layout style;
 }
 
 @media (max-width: 768px) {
-  .newAnimation {
-    height: 155svh;
-    min-height: 900px;
-  }
-
-  .newAnimImage {
-    width: calc(14.28% - 1px);
-    height: 26vh;
-    bottom: 4px;
-  }
-
-  .newAnimImage1,
-  .newAnimImage7 {
-    height: 22vh;
-    bottom: -8px;
-  }
-
-  .textImage {
-    top: 25%;
-    max-width: 90%;
-  }
+  .newAnimation { height: 155svh; min-height: 900px; }
+  .newAnimImage { width: calc(14.28% - 1px); height: 26vh; bottom: 4px; }
+  .newAnimImage1, .newAnimImage7 { height: 22vh; bottom: -8px; }
+  .textImage { top: 25%; max-width: 90%; }
 }
 
-/* Safari-specific: Disable CSS transitions during scroll */
+/* === SAFARI NUCLEAR OPTION === */
 @supports (-webkit-touch-callout: none) {
-  .newAnimImage,
-  .textImage {
-    transition: none !important;
+  .newAnimation { height: 140svh; min-height: 850px; }
+  .newAnimImage, .textImage { 
+    transition: none !important; 
+    animation: none !important;
   }
+  .newAnimationStage { overflow: visible; clip-path: inset(0 0 0 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .newAnimImage, .textImage { transition: none !important; animation: none !important; }
 }
