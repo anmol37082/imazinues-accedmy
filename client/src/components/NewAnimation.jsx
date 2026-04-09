@@ -25,6 +25,7 @@ function NewAnimation() {
   const isSafariRef = useRef(false);
   const rafIdRef = useRef(null);
   const lastScrollTimeRef = useRef(0);
+  const lastScrollYRef = useRef(0);
   const targetTranslatesRef = useRef(Array(8).fill(100));
   const currentTranslatesRef = useRef(Array(8).fill(100));
 
@@ -52,6 +53,7 @@ function NewAnimation() {
     if (!newAnimationRect) return;
 
     const scrollY = window.scrollY;
+    const isScrollingDown = scrollY >= lastScrollYRef.current;
     const newAnimationTop = newAnimationRect.top + scrollY;
     const newAnimationHeight = newAnimationRect.height;
     const viewportHeight = window.innerHeight;
@@ -67,7 +69,11 @@ function NewAnimation() {
     
     const clampValue = isSafari ? 0.15 : 0.08;
     const scrollProgress = isMobileViewport
-      ? Math.max(normalizedProgress, lastMobileProgressRef.current - clampValue)
+      ? (
+        isScrollingDown
+          ? Math.max(normalizedProgress, lastMobileProgressRef.current - clampValue)
+          : normalizedProgress
+      )
       : normalizedProgress;
 
     if (isMobileViewport) {
@@ -75,6 +81,7 @@ function NewAnimation() {
     } else {
       lastMobileProgressRef.current = mobileProgressOffset;
     }
+    lastScrollYRef.current = scrollY;
     
     const newTargets = Array.from({ length: 8 }, (_, index) => {
       const isTextImage = index === 7;
@@ -182,6 +189,7 @@ function NewAnimation() {
     calculateTargets();
     setImageTranslates([...targetTranslatesRef.current]);
     currentTranslatesRef.current = [...targetTranslatesRef.current];
+    lastScrollYRef.current = window.scrollY;
 
     return () => {
       window.removeEventListener('scroll', handleScroll, options);
