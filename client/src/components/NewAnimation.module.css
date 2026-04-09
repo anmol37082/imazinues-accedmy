@@ -66,7 +66,7 @@
 .newAnimImage {
   position: absolute;
   width: calc(14.28% - 2px);
-  height: 32vh;
+  height: 27vh;
   object-fit: cover;
   object-position: center top;
   will-change: auto;
@@ -82,13 +82,13 @@
   contain: layout style;
 }
 
-.newAnimImage1 { left: 0%; height: 32vh; bottom: 4px; }
+.newAnimImage1 { left: 0%; height: 27vh; bottom: 0px; }
 .newAnimImage2 { left: calc(14.28% + 1px); }
 .newAnimImage3 { left: calc(28.57% + 1.5px); }
 .newAnimImage4 { left: calc(42.85% + 2px); }
 .newAnimImage5 { left: calc(57.14% + 2px); }
 .newAnimImage6 { left: calc(71.42% + 2.5px); }
-.newAnimImage7 { left: calc(85.71% + 2px); height: 32vh; bottom: 4px; }
+.newAnimImage7 { left: calc(85.71% + 2px); height: 27vh; bottom: 0px; }
 
 .textImageWrap {
   position: absolute;

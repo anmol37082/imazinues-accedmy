@@ -10,8 +10,9 @@ const stats = [
 ];
 
 const introText =
-  "Hey, I'm Vishant Kumar, the mind behind Imazine Us - A creative agency focused on transforming simple concepts into creative solutions that truly stand out.";
-const countAnimationTriggerText = "Hey, I'm Vishant Kumar, the mind behind Imazine Us";
+  "Hey, I'm Vishant Kumar, the mind behind Imazine Us Academy, A creative learning platform dedicated to turning simple ideas into powerful creative skills. We help students master Graphic Design, Video Editing, Digital Marketing, and other creative fields with practical, industry-focused training.";
+const countAnimationTriggerText =
+  "Hey, I'm Vishant Kumar, the mind behind Imazine Us Academy";
 
 function CountUpValue({ value, suffix = "", start = 1, active }) {
   const [displayValue, setDisplayValue] = useState(start);
@@ -23,7 +24,7 @@ function CountUpValue({ value, suffix = "", start = 1, active }) {
     }
 
     let frameId;
-    const duration = 1400;
+    const duration = 1900;
     const startTime = performance.now();
 
     const animate = (time) => {
@@ -117,7 +118,7 @@ function StatsAndFacts() {
 
     if (isMobile) {
       let frameId = 0;
-      const duration = 650;
+      const duration = 1100;
       const startTime = performance.now();
 
       const animateMobileReveal = (time) => {
@@ -155,8 +156,8 @@ function StatsAndFacts() {
 
       const rect = introRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
-      const start = viewportHeight * 0.92;
-      const end = viewportHeight * 0.2;
+      const start = viewportHeight * 0.98;
+      const end = viewportHeight * 0.08;
       const progress = ((start - rect.top) / (start - end)) * 100;
       const nextCount = Math.round(
         (Math.max(0, Math.min(100, progress)) / 100) * totalChars
@@ -198,7 +199,7 @@ function StatsAndFacts() {
 
     const observer = new IntersectionObserver(
       ([entry]) => setStatsActive(entry.isIntersecting),
-      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
+      { threshold: 0.08, rootMargin: "0px 0px -4% 0px" }
     );
 
     observer.observe(sectionRef.current);

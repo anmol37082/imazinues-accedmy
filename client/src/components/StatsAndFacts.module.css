@@ -47,7 +47,7 @@
   padding-right: 68px;
   color: rgba(255, 255, 255, 0.34);
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-  font-size: clamp(2rem, 3.55vw, 3.05rem);
+  font-size: clamp(1.82rem, 3.2vw, 2.7rem);
   font-weight: 450;
   line-height: 1.16;
   letter-spacing: -0.05em;
@@ -65,9 +65,9 @@
   opacity: 0.28;
   transform: translateY(0.08em);
   transition:
-    color 0.28s ease,
-    opacity 0.28s ease,
-    transform 0.28s ease;
+    color 0.42s ease,
+    opacity 0.42s ease,
+    transform 0.42s ease;
 }
 
 .introCharVisible {
@@ -151,7 +151,7 @@
   .intro {
     margin: 0;
     padding-right: 0;
-    font-size: clamp(1.98rem, 7.6vw, 2.7rem);
+    font-size: clamp(1.68rem, 6.9vw, 2.35rem);
   }
 
   .value {
