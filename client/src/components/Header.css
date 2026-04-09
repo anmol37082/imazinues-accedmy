@@ -138,8 +138,8 @@ body {
   content: "";
   position: absolute;
   top: -118%;
-  left: -14%;
-  width: 14%;
+  left: -10%;
+  width: 8%;
   height: 260%;
   border-radius: 999px;
   background: linear-gradient(
@@ -151,7 +151,7 @@ body {
     rgba(255, 255, 255, 0.3) 84%,
     rgba(255, 255, 255, 0) 100%
   );
-  filter: blur(5px);
+  filter: blur(3px);
   opacity: 0;
   transform: rotate(38deg);
   pointer-events: none;

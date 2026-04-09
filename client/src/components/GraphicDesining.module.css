@@ -31,19 +31,89 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 140px;
-  padding: 10px 20px;
-  border-radius: 14px;
+  gap: 10px;
+  min-width: 156px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 0;
   background: #00ef02;
   color: #0b0b0b;
+  font-style: normal;
   font-family: "Avenir Next", sans-serif;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 22px;
+  line-height: 30px;
   letter-spacing: 1px;
   text-decoration: none;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
   text-transform: uppercase;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+}
+
+.enrollButton::after {
+  content: "";
+  position: absolute;
+  top: -118%;
+  left: -10%;
+  width: 8%;
+  height: 260%;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 16%,
+    rgba(255, 255, 255, 1) 36%,
+    rgba(255, 255, 255, 1) 64%,
+    rgba(255, 255, 255, 0.3) 84%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  filter: blur(3px);
+  opacity: 0;
+  transform: rotate(38deg);
+  pointer-events: none;
+}
+
+.enrollButton:hover::after {
+  animation: buttonWhiteSweep 0.9s ease-out 1;
+}
+
+.btnLabel,
+.btnIcon {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.btnLabel {
+  white-space: nowrap;
+}
+
+.btnIcon {
+  flex-shrink: 0;
+}
+
+@keyframes buttonWhiteSweep {
+  from {
+    top: -118%;
+    left: -14%;
+    opacity: 0;
+    transform: rotate(38deg);
+  }
+
+  16% {
+    opacity: 1;
+  }
+
+  78% {
+    opacity: 1;
+  }
+
+  to {
+    top: -14%;
+    left: 152%;
+    opacity: 0;
+    transform: rotate(38deg);
+  }
 }
 
 @media (max-width: 540px) {
@@ -64,10 +134,9 @@
 
   .enrollButton {
     bottom: 38px;
-    min-width: 126px;
-    padding: 8px 16px;
-    border-radius: 12px;
+    min-width: 0;
+    padding-inline: 16px;
     font-size: 13px;
-    line-height: 22px;
+    line-height: 24px;
   }
 }

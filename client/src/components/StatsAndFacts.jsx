@@ -54,6 +54,7 @@ function StatsAndFacts() {
   const splitInstanceRef = useRef(null);
   const sectionRef = useRef(null);
   const [statsActive, setStatsActive] = useState(false);
+  const [countAnimationActive, setCountAnimationActive] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -93,6 +94,7 @@ function StatsAndFacts() {
 
   useEffect(() => {
     const introChars = introCharsRef.current;
+    const totalChars = introChars.length;
 
     const updateRevealCount = (count) => {
       introChars.forEach((char, index) => {
@@ -101,6 +103,7 @@ function StatsAndFacts() {
     };
 
     if (!statsActive) {
+      setCountAnimationActive(false);
       updateRevealCount(0);
       return undefined;
     }
@@ -113,9 +116,13 @@ function StatsAndFacts() {
       const animateMobileReveal = (time) => {
         const progress = Math.min((time - startTime) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
-        const nextCount = Math.round(introChars.length * eased);
+        const nextCount = Math.round(totalChars * eased);
 
         updateRevealCount(nextCount);
+
+        if (nextCount >= totalChars) {
+          setCountAnimationActive(true);
+        }
 
         if (progress < 1) {
           frameId = window.requestAnimationFrame(animateMobileReveal);
@@ -145,10 +152,11 @@ function StatsAndFacts() {
       const end = viewportHeight * 0.2;
       const progress = ((start - rect.top) / (start - end)) * 100;
       const nextCount = Math.round(
-        (Math.max(0, Math.min(100, progress)) / 100) * introChars.length
+        (Math.max(0, Math.min(100, progress)) / 100) * totalChars
       );
 
       updateRevealCount(nextCount);
+      setCountAnimationActive(nextCount >= totalChars && totalChars > 0);
     };
 
     const requestRevealUpdate = () => {
@@ -208,7 +216,11 @@ function StatsAndFacts() {
         {stats.map((item) => (
           <article className={styles.card} key={item.title}>
             <h3 className={styles.value}>
-              <CountUpValue active={statsActive} value={item.value} suffix={item.suffix} />
+              <CountUpValue
+                active={countAnimationActive}
+                value={item.value}
+                suffix={item.suffix}
+              />
             </h3>
             <p className={styles.label}>
               <span className={styles.labelStrong}>{item.title}</span>
