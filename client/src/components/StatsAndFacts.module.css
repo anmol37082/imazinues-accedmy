@@ -1,9 +1,12 @@
 .section {
+  position: relative;
+  z-index: 2;
   width: 100%;
   margin: 0;
-  padding: 52px 32px 58px;
+  padding: 0px 32px 58px;
   background: #000000;
   box-sizing: border-box;
+  margin-top: -38px;
 }
 
 .copy {
@@ -49,6 +52,7 @@
   line-height: 1.16;
   letter-spacing: -0.05em;
   white-space: pre-wrap;
+  
 }
 
 .introWord {
@@ -120,6 +124,7 @@
 @media (max-width: 900px) {
   .section {
     padding: 40px 24px 46px;
+    margin-top: -26px;
   }
 
   .copy {
@@ -136,6 +141,7 @@
 @media (max-width: 540px) {
   .section {
     padding: 34px 18px 40px;
+    margin-top: -18px;
   }
 
   .eyebrow {

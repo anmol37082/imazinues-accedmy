@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import styles from "./Reviews.module.css";
 
 const reviews = [
@@ -109,8 +110,71 @@ function getInitials(name) {
 }
 
 function Reviews() {
+  const sectionRef = useRef(null);
+  const [visibleCount, setVisibleCount] = useState(0);
+
+  useEffect(() => {
+    if (!sectionRef.current || typeof window === "undefined") {
+      return undefined;
+    }
+
+    let frameId = 0;
+    let ticking = false;
+    let hasUserScrolled = false;
+
+    const updateVisibleCount = () => {
+      if (!sectionRef.current) {
+        return;
+      }
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const triggerLine = viewportHeight * 0.24;
+      const revealDistance = triggerLine - rect.top;
+      const stepDistance = viewportHeight * 0.18;
+      const nextVisibleCount = revealDistance <= 0
+        ? 0
+        : Math.max(
+            0,
+            Math.min(reviews.length, Math.floor(revealDistance / stepDistance))
+          );
+
+      setVisibleCount(nextVisibleCount);
+    };
+
+    const requestUpdate = () => {
+      hasUserScrolled = true;
+
+      if (ticking) {
+        return;
+      }
+
+      ticking = true;
+      frameId = window.requestAnimationFrame(() => {
+        ticking = false;
+        updateVisibleCount();
+      });
+    };
+
+    const handleScroll = () => {
+      requestUpdate();
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
+      if (!hasUserScrolled) {
+        setVisibleCount(0);
+      }
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <section className={styles.section}>
+    <section ref={sectionRef} className={styles.section}>
       <div className={styles.header}>
         <h2 className={styles.title}>What Students Say</h2>
 
@@ -146,8 +210,11 @@ function Reviews() {
       </div>
 
       <div className={styles.grid}>
-        {reviews.map((review) => (
-          <article key={review.name} className={styles.card}>
+        {reviews.map((review, index) => (
+          <article
+            key={review.name}
+            className={`${styles.card} ${index < visibleCount ? styles.cardVisible : ""}`}
+          >
             <div className={styles.cardTop}>
               {review.avatar ? (
                 <img

@@ -5,8 +5,8 @@
   display: block;
   width: 100vw;
   max-width: none;
-  height: 180svh;
-  min-height: 1100px;
+  height: 132svh;
+  min-height: 820px;
   background: black;
   margin: 0 calc(50% - 50vw);
   overflow: clip;
@@ -84,13 +84,30 @@
   contain: layout style;
 }
 
-.newAnimImage1 { left: 0%; height: 28vh; bottom: -12px; }
+.newAnimImage1 { left: 0%; height: 32vh; bottom: 4px; }
 .newAnimImage2 { left: calc(14.28% + 1px); }
 .newAnimImage3 { left: calc(28.57% + 1.5px); }
 .newAnimImage4 { left: calc(42.85% + 2px); }
 .newAnimImage5 { left: calc(57.14% + 2px); }
 .newAnimImage6 { left: calc(71.42% + 2.5px); }
-.newAnimImage7 { left: calc(85.71% + 2px); height: 28vh; bottom: -12px; }
+.newAnimImage7 { left: calc(85.71% + 2px); height: 32vh; bottom: 4px; }
+
+.textImageWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  opacity: 0;
+  filter: blur(18px);
+  transition:
+    opacity 0.75s ease,
+    filter 0.9s ease;
+  pointer-events: none;
+}
+
+.textImageLoaded {
+  opacity: 1;
+  filter: blur(0);
+}
 
 .textImage {
   position: absolute;
@@ -98,11 +115,11 @@
   left: 50%;
   -webkit-transform: translate3d(-50%, 0, 0);
   transform: translate3d(-50%, 0, 0);
-  max-width: 100%;
+  max-width: 90%;
   max-height: 60vh;
   width: auto;
   height: auto;
-  z-index: 4;
+  z-index: 1;
   border-radius: 8px;
   object-fit: contain;
   will-change: auto;
@@ -113,15 +130,78 @@
 }
 
 @media (max-width: 768px) {
-  .newAnimation { height: 155svh; min-height: 900px; }
-  .newAnimImage { width: calc(14.28% - 1px); height: 26vh; bottom: 4px; }
-  .newAnimImage1, .newAnimImage7 { height: 22vh; bottom: -8px; }
-  .textImage { top: 25%; max-width: 90%; }
+  .newAnimation {
+    height: 108svh;
+    min-height: 620px;
+  }
+
+  .newAnimationStage {
+    height: 100dvh;
+  }
+
+  .newAnimationBg {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 12px);
+    box-sizing: border-box;
+  }
+
+  .newAnimImage {
+    width: calc(14.28% - 2px);
+    height: 20vh;
+    min-height: 132px;
+    bottom: 14px;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.32);
+  }
+
+  .newAnimImage1,
+  .newAnimImage7 {
+    height: 20vh;
+    min-height: 132px;
+    bottom: 14px;
+  }
+
+  .textImageWrap {
+    inset: 0 0 auto;
+    min-height: 100%;
+  }
+
+  .textImage {
+    top: clamp(72px, 15vh, 118px);
+    max-width: min(90vw, 420px);
+    max-height: 24vh;
+  }
+}
+
+@media (max-width: 540px) {
+  .newAnimation {
+    height: 102svh;
+    min-height: 560px;
+  }
+
+  .newAnimImage {
+    height: 18vh;
+    min-height: 110px;
+    bottom: 12px;
+    border-radius: 7px;
+  }
+
+  .newAnimImage1,
+  .newAnimImage7 {
+    height: 18vh;
+    min-height: 110px;
+    bottom: 12px;
+  }
+
+  .textImage {
+    top: clamp(64px, 13vh, 96px);
+    max-width: 92vw;
+    max-height: 22vh;
+  }
 }
 
 /* === SAFARI NUCLEAR OPTION === */
 @supports (-webkit-touch-callout: none) {
-  .newAnimation { height: 140svh; min-height: 850px; }
+  .newAnimation { height: 118svh; min-height: 680px; }
   .newAnimImage, .textImage { 
     transition: none !important; 
     animation: none !important;
@@ -129,6 +209,14 @@
   .newAnimationStage { overflow: visible; clip-path: inset(0 0 0 0); }
 }
 
+@supports (-webkit-touch-callout: none) and (max-width: 768px) {
+  .newAnimation {
+    height: 106svh;
+    min-height: 600px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .newAnimImage, .textImage { transition: none !important; animation: none !important; }
+  .newAnimImage, .textImage, .textImageWrap { transition: none !important; animation: none !important; }
+  .textImageWrap { opacity: 1; filter: blur(0); }
 }

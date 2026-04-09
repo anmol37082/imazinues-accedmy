@@ -11,6 +11,7 @@ const stats = [
 
 const introText =
   "Hey, I'm Vishant Kumar, the mind behind Imazine Us - A creative agency focused on transforming simple concepts into creative solutions that truly stand out.";
+const countAnimationTriggerText = "Hey, I'm Vishant Kumar, the mind behind Imazine Us";
 
 function CountUpValue({ value, suffix = "", start = 1, active }) {
   const [displayValue, setDisplayValue] = useState(start);
@@ -56,6 +57,7 @@ function StatsAndFacts() {
   const [statsActive, setStatsActive] = useState(false);
   const [countAnimationActive, setCountAnimationActive] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const triggerCharCountRef = useRef(countAnimationTriggerText.length);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -84,6 +86,10 @@ function StatsAndFacts() {
 
     splitInstanceRef.current = splitInstance;
     introCharsRef.current = splitInstance.chars ?? [];
+    triggerCharCountRef.current = Math.min(
+      countAnimationTriggerText.length,
+      introCharsRef.current.length
+    );
 
     return () => {
       introCharsRef.current = [];
@@ -95,6 +101,7 @@ function StatsAndFacts() {
   useEffect(() => {
     const introChars = introCharsRef.current;
     const totalChars = introChars.length;
+    const triggerCharCount = triggerCharCountRef.current;
 
     const updateRevealCount = (count) => {
       introChars.forEach((char, index) => {
@@ -120,7 +127,7 @@ function StatsAndFacts() {
 
         updateRevealCount(nextCount);
 
-        if (nextCount >= totalChars) {
+        if (nextCount >= triggerCharCount) {
           setCountAnimationActive(true);
         }
 
@@ -156,7 +163,7 @@ function StatsAndFacts() {
       );
 
       updateRevealCount(nextCount);
-      setCountAnimationActive(nextCount >= totalChars && totalChars > 0);
+      setCountAnimationActive(nextCount >= triggerCharCount && triggerCharCount > 0);
     };
 
     const requestRevealUpdate = () => {
