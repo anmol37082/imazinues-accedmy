@@ -5,8 +5,8 @@
   display: block;
   width: 100vw;
   max-width: none;
-  height: 132svh;
-  min-height: 820px;
+  height: 176svh;
+  min-height: 1120px;
   background: black;
   margin: 0 calc(50% - 50vw);
   overflow: clip;
@@ -15,8 +15,7 @@
   transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  contain: layout style paint;
-  content-visibility: auto;
+  contain: paint;
 }
 
 .newAnimationStage {
@@ -28,7 +27,6 @@
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   will-change: transform;
-  contain: layout style;
 }
 
 .newAnimationBg {
@@ -131,8 +129,8 @@
 
 @media (max-width: 768px) {
   .newAnimation {
-    height: 108svh;
-    min-height: 620px;
+    height: 138svh;
+    min-height: 760px;
   }
 
   .newAnimationStage {
@@ -174,8 +172,8 @@
 
 @media (max-width: 540px) {
   .newAnimation {
-    height: 102svh;
-    min-height: 560px;
+    height: 128svh;
+    min-height: 680px;
   }
 
   .newAnimImage {
@@ -201,7 +199,7 @@
 
 /* === SAFARI NUCLEAR OPTION === */
 @supports (-webkit-touch-callout: none) {
-  .newAnimation { height: 118svh; min-height: 680px; }
+  .newAnimation { height: 168svh; min-height: 980px; }
   .newAnimImage, .textImage { 
     transition: none !important; 
     animation: none !important;
@@ -211,8 +209,8 @@
 
 @supports (-webkit-touch-callout: none) and (max-width: 768px) {
   .newAnimation {
-    height: 106svh;
-    min-height: 600px;
+    height: 132svh;
+    min-height: 720px;
   }
 }
 

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import SplitType from "split-type";
 import styles from "./Reviews.module.css";
 
 const reviews = [
@@ -111,7 +112,134 @@ function getInitials(name) {
 
 function Reviews() {
   const sectionRef = useRef(null);
+  const titleRef = useRef(null);
+  const titleCharsRef = useRef([]);
+  const splitInstanceRef = useRef(null);
   const [visibleCount, setVisibleCount] = useState(0);
+  const [isTitleActive, setIsTitleActive] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(max-width: 540px)");
+    const updateIsMobile = (event) => setIsMobile(event.matches);
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", updateIsMobile);
+
+    return () => mediaQuery.removeEventListener("change", updateIsMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!sectionRef.current) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsTitleActive(entry.isIntersecting),
+      { threshold: 0.01, rootMargin: "0px 0px 12% 0px" }
+    );
+
+    observer.observe(sectionRef.current);
+
+    return () => observer.disconnect();
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (!titleRef.current || typeof window === "undefined") {
+      return undefined;
+    }
+
+    splitInstanceRef.current?.revert();
+
+    const splitInstance = new SplitType(titleRef.current, {
+      types: "words, chars",
+      wordClass: styles.titleWord,
+      charClass: styles.titleChar,
+    });
+
+    splitInstanceRef.current = splitInstance;
+    titleCharsRef.current = splitInstance.chars ?? [];
+
+    return () => {
+      titleCharsRef.current = [];
+      splitInstanceRef.current?.revert();
+      splitInstanceRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    const titleChars = titleCharsRef.current;
+
+    const updateRevealCount = (count) => {
+      titleChars.forEach((char, index) => {
+        char.classList.toggle(styles.titleCharVisible, index < count);
+      });
+    };
+
+    if (!isTitleActive) {
+      updateRevealCount(0);
+      return undefined;
+    }
+
+    if (isMobile) {
+      let frameId = 0;
+      const duration = 650;
+      const startTime = performance.now();
+
+      const animateMobileReveal = (time) => {
+        const progress = Math.min((time - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const nextCount = Math.round(titleChars.length * eased);
+
+        updateRevealCount(nextCount);
+
+        if (progress < 1) {
+          frameId = window.requestAnimationFrame(animateMobileReveal);
+        }
+      };
+
+      frameId = window.requestAnimationFrame(animateMobileReveal);
+
+      return () => {
+        if (frameId) window.cancelAnimationFrame(frameId);
+      };
+    }
+
+    let frameId = 0;
+    let ticking = false;
+
+    const updateReveal = () => {
+      if (!titleRef.current) return;
+
+      const rect = titleRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const start = viewportHeight * 1.08;
+      const end = viewportHeight * 0.34;
+      const progress = ((start - rect.top) / (start - end)) * 100;
+      const nextCount = Math.round((Math.max(0, Math.min(100, progress)) / 100) * titleChars.length);
+
+      updateRevealCount(nextCount);
+    };
+
+    const requestRevealUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      frameId = window.requestAnimationFrame(() => {
+        ticking = false;
+        updateReveal();
+      });
+    };
+
+    updateReveal();
+    window.addEventListener("scroll", requestRevealUpdate, { passive: true });
+    window.addEventListener("resize", requestRevealUpdate);
+
+    return () => {
+      if (frameId) window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", requestRevealUpdate);
+      window.removeEventListener("resize", requestRevealUpdate);
+    };
+  }, [isMobile, isTitleActive]);
 
   useEffect(() => {
     if (!sectionRef.current || typeof window === "undefined") {
@@ -129,9 +257,9 @@ function Reviews() {
 
       const rect = sectionRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
-      const triggerLine = viewportHeight * 0.24;
+      const triggerLine = viewportHeight * 0.36;
       const revealDistance = triggerLine - rect.top;
-      const stepDistance = viewportHeight * 0.18;
+      const stepDistance = viewportHeight * 0.15;
       const nextVisibleCount = revealDistance <= 0
         ? 0
         : Math.max(
@@ -176,7 +304,18 @@ function Reviews() {
   return (
     <section ref={sectionRef} className={styles.section}>
       <div className={styles.header}>
-        <h2 className={styles.title}>What Students Say</h2>
+        <h2 className={styles.title}>
+          <span ref={titleRef} className={styles.titlePrimary}>
+            {isMobile ? (
+              <>
+                <span className={styles.titleLine}>What Students</span>
+                <span className={styles.titleLine}>Say</span>
+              </>
+            ) : (
+              "What Students Say"
+            )}
+          </span>
+        </h2>
 
         <div className={`${styles.summary} ${styles.summaryDesktop}`}>
           <span className={styles.summaryLineMedium}>
