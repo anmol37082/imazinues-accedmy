@@ -193,15 +193,15 @@
 
 @media (max-width: 540px) {
   .mobileBannerSection {
-    min-height: auto;
+    min-height: 0;
   }
 
   .mobileBannerImage {
-    min-height: auto;
+    min-height: 0;
   }
 }
 
-/* === SAFARI NUCLEAR OPTION === */
+
 @supports (-webkit-touch-callout: none) {
   .newAnimation { height: 168svh; min-height: 980px; }
   .newAnimImage, .textImage { 
