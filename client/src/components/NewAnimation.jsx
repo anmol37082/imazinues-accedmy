@@ -101,7 +101,6 @@ function NewAnimation() {
       let progress = (scrollProgress - startOffset) / animationRange;
       progress = Math.max(0, Math.min(1, progress));
 
-      // LINEAR for Safari (no easing calculation)
       const easedProgress = isSafari
         ? progress
         : (isTextImage ? (1 - Math.pow(1 - progress, 2.4)) : (1 - Math.pow(1 - progress, 2.8)));
