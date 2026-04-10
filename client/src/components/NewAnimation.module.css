@@ -1,4 +1,4 @@
-/* === ULTRA AGGRESSIVE SAFARI OPTIMIZATION === */
+
 
 .newAnimation {
   position: relative;
@@ -74,7 +74,6 @@
   transform: translateZ(0);
 }
 
-/* === NO CSS TRANSITIONS - PURE JS RAF === */
 .newAnimImage {
   position: absolute;
   width: calc(14.28% - 2px);
