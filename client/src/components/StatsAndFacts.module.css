@@ -130,7 +130,7 @@
   .copy {
     grid-template-columns: 1fr;
     gap: 18px;
-    margin: 20px 4px 64px;
+    margin: 20px 10px 64px;
   }
 
   .grid {
@@ -151,7 +151,7 @@
   .intro {
     margin: 0;
     padding-right: 0;
-    font-size: clamp(1.80rem, 7.3vw, 2.5rem);
+    font-size: clamp(1.65rem, 7.3vw, 2.5rem);
   }
 
   .value {
