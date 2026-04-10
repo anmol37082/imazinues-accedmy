@@ -47,7 +47,7 @@
   padding-right: 68px;
   color: rgba(255, 255, 255, 0.34);
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-  font-size: clamp(1.82rem, 3.2vw, 2.7rem);
+  font-size: clamp(1.96rem, 3.45vw, 2.9rem);
   font-weight: 450;
   line-height: 1.16;
   letter-spacing: -0.05em;
@@ -151,7 +151,7 @@
   .intro {
     margin: 0;
     padding-right: 0;
-    font-size: clamp(1.68rem, 6.9vw, 2.35rem);
+    font-size: clamp(1.82rem, 7.3vw, 2.5rem);
   }
 
   .value {

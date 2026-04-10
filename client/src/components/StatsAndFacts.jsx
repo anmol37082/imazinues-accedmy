@@ -10,9 +10,9 @@ const stats = [
 ];
 
 const introText =
-  "Hey, I'm Vishant Kumar, the mind behind Imazine Us Academy, A creative learning platform dedicated to turning simple ideas into powerful creative skills. We help students master Graphic Design, Video Editing, Digital Marketing, and other creative fields with practical, industry-focused training.";
+  "I’m Vishant Kumar, founder of Imazine Us Academy, where we turn simple ideas into powerful creative skills and help students become future-ready creators.";
 const countAnimationTriggerText =
-  "Hey, I'm Vishant Kumar, the mind behind Imazine Us Academy";
+  "I’m Vishant Kumar, founder of Imazine Us Academy";
 
 function CountUpValue({ value, suffix = "", start = 1, active }) {
   const [displayValue, setDisplayValue] = useState(start);
