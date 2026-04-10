@@ -1,6 +1,7 @@
 import styles from './NewAnimation.module.css';
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 
+const mobileBannerImage = '/homepagemobileviewbanner.webp';
 const imagePaths = [
   '/newanimation/image 1.png',
   '/newanimation/image 2.png',
@@ -26,6 +27,13 @@ function NewAnimation() {
   const lastMobileProgressRef = useRef(mobileProgressOffset);
   const [imageTranslates, setImageTranslates] = useState(Array(8).fill(100));
   const [isTextLoaded, setIsTextLoaded] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(() => {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
+    return window.innerWidth <= 768;
+  });
   const isSafariRef = useRef(false);
   const rafIdRef = useRef(null);
   const lastScrollTimeRef = useRef(0);
@@ -36,6 +44,17 @@ function NewAnimation() {
   useEffect(() => {
     const ua = navigator.userAgent.toLowerCase();
     isSafariRef.current = /^((?!chrome|android).)*safari/i.test(ua) && !ua.includes('chrome');
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    const handleChange = () => {
+      setIsMobileViewport(mediaQuery.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
   useEffect(() => {
@@ -218,6 +237,18 @@ function NewAnimation() {
     WebkitTransform: `translateX(-50%) translateY(${imageTranslates[7]}px) translate3d(0,0,0)`,
     willChange: 'transform',
   });
+
+  if (isMobileViewport) {
+    return (
+      <section className={styles.mobileBannerSection}>
+        <img
+          src={mobileBannerImage}
+          alt="Imazine Us Academy mobile banner"
+          className={styles.mobileBannerImage}
+        />
+      </section>
+    );
+  }
 
   return (
     <section ref={newAnimationRef} className={styles.newAnimation}>

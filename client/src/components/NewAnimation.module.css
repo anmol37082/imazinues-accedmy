@@ -18,6 +18,19 @@
   contain: paint;
 }
 
+.mobileBannerSection {
+  width: 100vw;
+  margin: 0 calc(50% - 50vw);
+  background: #000000;
+  line-height: 0;
+}
+
+.mobileBannerImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .newAnimationStage {
   position: sticky;
   top: 0;
@@ -167,32 +180,24 @@
     max-width: min(90vw, 420px);
     max-height: 24vh;
   }
+
+  .mobileBannerSection {
+    min-height: 100dvh;
+  }
+
+  .mobileBannerImage {
+    min-height: 100dvh;
+    object-fit: cover;
+  }
 }
 
 @media (max-width: 540px) {
-  .newAnimation {
-    height: 128svh;
-    min-height: 680px;
+  .mobileBannerSection {
+    min-height: auto;
   }
 
-  .newAnimImage {
-    height: 18vh;
-    min-height: 110px;
-    bottom: 12px;
-    border-radius: 7px;
-  }
-
-  .newAnimImage1,
-  .newAnimImage7 {
-    height: 18vh;
-    min-height: 110px;
-    bottom: 12px;
-  }
-
-  .textImage {
-    top: clamp(64px, 13vh, 96px);
-    max-width: 92vw;
-    max-height: 22vh;
+  .mobileBannerImage {
+    min-height: auto;
   }
 }
 
