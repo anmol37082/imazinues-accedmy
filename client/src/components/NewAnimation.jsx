@@ -15,6 +15,10 @@ const imageTravelDistances = [135, 120, 145, 130, 140, 125, 150];
 const imageFinalOffsets = [34, 32, 30, 32, 30, 32, 34];
 const mobileFinalOffsets = [12, 10, 8, 8, 8, 10, 12];
 const mobileTravelBoost = [28, 24, 30, 26, 30, 24, 28];
+const imageStartOffsets = [0.1, 0.15, 0.2, 0.13, 0.22, 0.17, 0.24];
+const mobileImageStartOffsets = [0.08, 0.13, 0.18, 0.11, 0.2, 0.15, 0.22];
+const imageLayerOffsets = [36, 18, 44, 24, 40, 20, 34];
+const mobileImageLayerOffsets = [24, 14, 28, 18, 26, 16, 22];
 const mobileProgressOffset = 0.14;
 
 function NewAnimation() {
@@ -85,11 +89,12 @@ function NewAnimation() {
     
     const newTargets = Array.from({ length: 8 }, (_, index) => {
       const isTextImage = index === 7;
-      let startOffset = isTextImage ? 0.1 : 0.16;
+      let startOffset = isTextImage
+        ? 0.1
+        : (isMobileViewport ? mobileImageStartOffsets[index] : imageStartOffsets[index]);
       let animationRange = isTextImage ? 0.72 : 0.64;
 
       if (isMobileViewport && !isTextImage) {
-        startOffset = 0.14;
         animationRange = 0.78;
       }
 
@@ -112,10 +117,15 @@ function NewAnimation() {
       const currentFinalOffset = isTextImage
         ? 0
         : (isMobileViewport ? mobileFinalOffsets[index] : imageFinalOffsets[index]);
+      const layerOffset = isTextImage
+        ? 0
+        : (isMobileViewport ? mobileImageLayerOffsets[index] : imageLayerOffsets[index]);
 
       const entryTarget = isTextImage
         ? currentTravelDistance * (1 - easedProgress)
-        : currentFinalOffset + ((currentTravelDistance - currentFinalOffset) * (1 - easedProgress));
+        : currentFinalOffset +
+          ((currentTravelDistance - currentFinalOffset) * (1 - easedProgress)) +
+          (layerOffset * (1 - easedProgress));
 
       const exitStart = Math.min(
         startOffset + (animationRange * (isTextImage ? 0.52 : 0.6)),
@@ -138,7 +148,7 @@ function NewAnimation() {
     targetTranslatesRef.current = newTargets;
   }, []);
 
-  const interpolate = useCallback(() => {
+  const interpolate = useCallback(function interpolateFrame() {
     const isSafari = isSafariRef.current;
     const lerpFactor = isSafari ? 0.11 : 0.035;
     
@@ -156,7 +166,7 @@ function NewAnimation() {
     if (hasChanged) {
       currentTranslatesRef.current = newTranslates;
       setImageTranslates([...newTranslates]);
-      rafIdRef.current = requestAnimationFrame(interpolate);
+      rafIdRef.current = requestAnimationFrame(interpolateFrame);
     } else {
       rafIdRef.current = null;
     }

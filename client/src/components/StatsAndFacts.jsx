@@ -19,7 +19,6 @@ function CountUpValue({ value, suffix = "", start = 1, active }) {
 
   useEffect(() => {
     if (!active) {
-      setDisplayValue(start);
       return;
     }
 
@@ -47,7 +46,7 @@ function CountUpValue({ value, suffix = "", start = 1, active }) {
     };
   }, [active, start, value]);
 
-  return `${displayValue}${suffix}`;
+  return `${active ? displayValue : start}${suffix}`;
 }
 
 function StatsAndFacts() {
@@ -57,7 +56,13 @@ function StatsAndFacts() {
   const sectionRef = useRef(null);
   const [statsActive, setStatsActive] = useState(false);
   const [countAnimationActive, setCountAnimationActive] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    return window.innerWidth <= 540;
+  });
   const triggerCharCountRef = useRef(countAnimationTriggerText.length);
 
   useEffect(() => {
@@ -66,9 +71,7 @@ function StatsAndFacts() {
     }
 
     const mediaQuery = window.matchMedia("(max-width: 540px)");
-    const updateIsMobile = (event) => setIsMobile(event.matches);
-
-    setIsMobile(mediaQuery.matches);
+    const updateIsMobile = () => setIsMobile(mediaQuery.matches);
     mediaQuery.addEventListener("change", updateIsMobile);
 
     return () => mediaQuery.removeEventListener("change", updateIsMobile);
@@ -111,7 +114,6 @@ function StatsAndFacts() {
     };
 
     if (!statsActive) {
-      setCountAnimationActive(false);
       updateRevealCount(0);
       return undefined;
     }
@@ -198,7 +200,13 @@ function StatsAndFacts() {
     }
 
     const observer = new IntersectionObserver(
-      ([entry]) => setStatsActive(entry.isIntersecting),
+      ([entry]) => {
+        setStatsActive(entry.isIntersecting);
+
+        if (!entry.isIntersecting) {
+          setCountAnimationActive(false);
+        }
+      },
       { threshold: 0.08, rootMargin: "0px 0px -4% 0px" }
     );
 
@@ -225,6 +233,7 @@ function StatsAndFacts() {
           <article className={styles.card} key={item.title}>
             <h3 className={styles.value}>
               <CountUpValue
+                key={`${item.title}-${countAnimationActive}`}
                 active={countAnimationActive}
                 value={item.value}
                 suffix={item.suffix}

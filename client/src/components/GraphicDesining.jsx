@@ -12,21 +12,13 @@ function GraphicDesining() {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 540px)");
-    const handleChange = (event) => {
-      setIsMobileViewport(event.matches);
+    const handleChange = () => {
+      setIsMobileViewport(mediaQuery.matches);
     };
 
-    setIsMobileViewport(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleChange);
 
-    if (typeof mediaQuery.addEventListener === "function") {
-      mediaQuery.addEventListener("change", handleChange);
-
-      return () => mediaQuery.removeEventListener("change", handleChange);
-    }
-
-    mediaQuery.addListener(handleChange);
-
-    return () => mediaQuery.removeListener(handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
   const videoSources = isMobileViewport

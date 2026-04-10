@@ -7,7 +7,7 @@
   max-width: none;
   height: 176svh;
   min-height: 1120px;
-  background: black;
+  background: #000000;
   margin: 0 calc(50% - 50vw);
   overflow: clip;
   isolation: isolate;
@@ -20,7 +20,6 @@
 
 .newAnimationStage {
   position: sticky;
-  position: -webkit-sticky;
   top: 0;
   height: 100svh;
   overflow: hidden;
@@ -46,7 +45,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: black;
+  background: #000000;
   z-index: 0;
 }
 
@@ -56,7 +55,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(10, 22, 40, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%);
+  background: #000000;
   z-index: 1;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
@@ -73,7 +72,7 @@
   transition: none !important;
   z-index: 3;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  box-shadow: none;
   bottom: 4px;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
@@ -148,7 +147,7 @@
     min-height: 132px;
     bottom: 14px;
     border-radius: 8px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.32);
+    box-shadow: none;
   }
 
   .newAnimImage1,
